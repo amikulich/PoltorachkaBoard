@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Poltorachka.DataAccess;
+using Poltorachka.Domain;
 
 namespace Poltorachka
 {
@@ -21,7 +24,38 @@ namespace Poltorachka
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IFactRepository, FactRepository>();
+            services.AddSingleton<IFactSummaryQuery, FactSummaryQuery>(); 
+            services.AddSingleton<IIndividualsQuery, IndividualsQuery>();
             services.AddMvc();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+
+                    options.Authority = Configuration.GetSection("Authentication")
+                        .GetValue<string>("IdentityServerUrl");
+                    options.RequireHttpsMetadata = false;
+
+                    options.ClientId = "mvc";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code id_token";
+
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.Scope.Add("api1");
+                    options.Scope.Add("offline_access");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +70,8 @@ namespace Poltorachka
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 

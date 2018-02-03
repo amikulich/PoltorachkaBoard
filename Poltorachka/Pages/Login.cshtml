@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@page
+@model LoginModel
+
+@if (User.Identity.IsAuthenticated)
+{
+    <span>Hello, @User.Identity.Name</span>
+}
+else
+{
+    <a class="form-control" asp-controller="Login" asp-action="Login">Login</a>
+}
+
+
+

@@ -3,9 +3,21 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Pages\Login.cshtml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+    <Content Remove="Pages\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Poltorachka.DataAccess\Poltorachka.DataAccess.csproj" />
+    <ProjectReference Include="..\Poltorachka.Domain\Poltorachka.Domain.csproj" />
   </ItemGroup>
 </Project>
