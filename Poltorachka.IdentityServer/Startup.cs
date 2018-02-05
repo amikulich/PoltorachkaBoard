@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -44,8 +46,64 @@ namespace Poltorachka.IdentityServer
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryClients(GetClients())
                 .AddAspNetIdentity<ApplicationUser>();
+        }
+
+        private IEnumerable<Client> GetClients()
+        {
+            var section = Configuration.GetSection("PBClient");
+            var clientUrl = section.GetValue<string>("Url");
+
+            // client credentials client
+            return new List<Client>
+            {
+                new Client
+                {
+                    ClientId = "client",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = { "api1" }
+                },
+
+                // resource owner password grant client
+                new Client
+                {
+                    ClientId = "ro.client",
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    AllowedScopes = { "api1" }
+                },
+
+                
+
+                // OpenID Connect hybrid flow and client credentials client (MVC)
+                new Client
+                {
+                    ClientId = section.GetValue<string>("ClientId"),
+                    ClientName = section.GetValue<string>("ClientName"),
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                    RequireConsent = false,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    RedirectUris = { $"{clientUrl}/signin-oidc" },
+                    PostLogoutRedirectUris = { $"{clientUrl}/signout-callback-oidc" },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    },
+                    AllowOfflineAccess = true
+                }
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

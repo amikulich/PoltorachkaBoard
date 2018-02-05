@@ -6,7 +6,6 @@
     <Compile Remove="Pages\Login.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
     <Content Remove="Pages\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
