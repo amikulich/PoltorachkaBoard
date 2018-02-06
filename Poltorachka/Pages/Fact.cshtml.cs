@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +13,7 @@ namespace Poltorachka.Pages
     public class FactModel : PageModel
     {
         private readonly IFactRepository factRepository;
+
         private readonly IIndividualsQuery individualsQuery;
 
         public FactModel(IFactRepository factRepository, IIndividualsQuery individualsQuery)
@@ -36,7 +39,10 @@ namespace Poltorachka.Pages
                 return Page();
             }
 
-            factRepository.Save(new Fact(Fact.WinnerName, Fact.LoserName, Fact.WinnerName, Fact.Score));
+            var creatorName = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
+
+
+            factRepository.Save(new Fact(Fact.WinnerName, Fact.LoserName, creatorName, Fact.Score));
 
             return RedirectToPage("/Index");
         }

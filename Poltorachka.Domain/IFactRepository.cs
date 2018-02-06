@@ -4,8 +4,10 @@ namespace Poltorachka.Domain
 {
     public interface IFactRepository
     {
-        IEnumerable<FactReadModel> Get();
+        IEnumerable<Fact> Get();
 
         void Save(Fact fact);
+
+        Fact GetById(int factId);
     }
 }

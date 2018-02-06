@@ -1,5 +1,7 @@
 ﻿@page
-@model IndexModel
+@using Poltorachka.Domain
+@using Poltorachka.Pages
+@model Poltorachka.Pages.IndexModel
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -17,7 +19,16 @@
             To
         </th>
         <th>
+            RegisteredBy
+        </th>
+        <th>
+            ApprovedBy
+        </th>
+        <th>
             Amount
+        </th>
+        <th>
+            Status
         </th>
     </tr>
     </thead>
@@ -49,7 +60,18 @@
                         break;
                 }
             </td>
+            <td>@fact.CreatorName</td>
+            <td>@fact.ApproverName</td>
             <td>@fact.Score
+            </td>
+            <td>@if (fact.Status == FactStatus.Registered)
+                    {
+                        <a asp-page="FactEdit" asp-route-id="@fact.FactId">Edit</a>
+                    }
+                    else
+                    {
+                        <span class="label label-success">@fact.Status.ToString()</span>
+                    }
             </td>
         </tr>
     }

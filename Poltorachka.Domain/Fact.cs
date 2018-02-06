@@ -5,42 +5,59 @@ namespace Poltorachka.Domain
 {
     public class Fact : DomainEntity
     {
-        protected Fact()
+        public Fact()
         {
         }
 
         public Fact(string winnerName, 
             string loserName, 
-            string auditorName, 
+            string creatorName, 
             byte score)
             : this()
         {
             WinnerName = winnerName;
             LoserName = loserName;
-            AuditorName = auditorName;
+            CreatorName = creatorName;
             Score = score;
             Date = DateTime.UtcNow;
 
-            if (LoserName == AuditorName)
+            if (LoserName == CreatorName)
             {
+                ApproverName = CreatorName;
                 Status = FactStatus.Approved;
             }
             else
             {
                 Status = FactStatus.Registered;
-                Events.Add(new FactRegisteredEvent(winnerName, loserName, auditorName, Date));
+                Events.Add(new FactRegisteredEvent(winnerName, loserName, creatorName, Date));
             }
         }
 
-        public string WinnerName { get; }
+        public void Approve(string approverName)
+        {
+            if (approverName != WinnerName)
+            {
+                Status = FactStatus.Approved;
+                return;
+            }
+            
+            throw new InvalidOperationException("Winner cannot approve the fact");
+        }
 
-        public string LoserName { get; }
 
-        public string AuditorName { get; }
+        public int FactId { get; set; }
 
-        public byte Score { get; }
+        public string WinnerName { get; set; }
 
-        public FactStatus Status { get; }
+        public string LoserName { get; set; }
+
+        public string CreatorName { get; set; }
+
+        public string ApproverName { get; set; }
+
+        public byte Score { get; set; }
+
+        public FactStatus Status { get; set; }
 
         public DateTime Date { get; set; }
     }
