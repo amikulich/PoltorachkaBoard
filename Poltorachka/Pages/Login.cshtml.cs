@@ -16,7 +16,7 @@ namespace Poltorachka.Pages
         [Authorize]
         public void Login()
         {
-            UserName = User.Identity.Name;
+            //UserName = User.Identity.Name;
         }
     }
 }

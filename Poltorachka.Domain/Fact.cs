@@ -33,18 +33,6 @@ namespace Poltorachka.Domain
             }
         }
 
-        public void Approve(string approverName)
-        {
-            if (approverName != WinnerName)
-            {
-                Status = FactStatus.Approved;
-                return;
-            }
-            
-            throw new InvalidOperationException("Winner cannot approve the fact");
-        }
-
-
         public int FactId { get; set; }
 
         public string WinnerName { get; set; }
@@ -60,5 +48,27 @@ namespace Poltorachka.Domain
         public FactStatus Status { get; set; }
 
         public DateTime Date { get; set; }
+
+        public void Decline(string currentUser)
+        {
+            if (currentUser != LoserName)
+            {
+                Status = FactStatus.Canceled;
+                return;
+            }
+
+            throw new InvalidOperationException("Loser cannot decline the fact");
+        }
+
+        public void Approve(string approverName)
+        {
+            if (approverName != WinnerName && approverName != CreatorName)
+            {
+                Status = FactStatus.Approved;
+                return;
+            }
+
+            throw new InvalidOperationException("Winner or Creator cannot approve the fact");
+        }
     }
 }

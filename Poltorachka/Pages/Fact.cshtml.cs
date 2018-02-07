@@ -41,7 +41,6 @@ namespace Poltorachka.Pages
 
             var creatorName = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
 
-
             factRepository.Save(new Fact(Fact.WinnerName, Fact.LoserName, creatorName, Fact.Score));
 
             return RedirectToPage("/Index");

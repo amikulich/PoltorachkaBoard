@@ -2,4 +2,20 @@
 @using Poltorachka.Pages
 @model Poltorachka.Pages.FactEditModel
 
-<div>Hello</div>
+<form asp-action="Post">
+    <div class="form-group">
+        <label for="loser_name_input">Loser</label>
+        <input readonly id="loser_name_input" type="text" asp-for="Fact.LoserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="winner_name_input">Winner</label>
+        <input readonly id="winner_name_input" type="text" asp-for="Fact.WinnerName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="score_input">Score</label>
+        <input readonly id="score_input" type="text" asp-for="Fact.Score" class="form-control" />
+    </div>
+    <input  type="submit" asp-page-handler="Approve" class="btn btn-success" value="Approve"/>
+    <input type="submit" asp-page-handler="Decline" class="btn btn-danger" value="Decline"/>
+    <a asp-page="./Index" class="btn btn-link">Cancel</a>
+</form>

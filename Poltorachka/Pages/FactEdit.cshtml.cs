@@ -1,19 +1,66 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Poltorachka.Domain;
 
 namespace Poltorachka.Pages
 {
     public class FactEditModel : PageModel
     {
-        public string Title { get; set; }
+        private readonly IFactRepository factRepository;
+        private readonly IIndividualsQuery individualsQuery;
 
-        public void OnGet()
+        public FactEditModel(IFactRepository factRepository, IIndividualsQuery individualsQuery)
         {
-            Title = "f";
+            this.factRepository = factRepository;
+            this.individualsQuery = individualsQuery;
+        }
+
+        public bool ApproveAllowed { get; private set; }
+
+        public bool DeclineAllowed { get; private set; }
+
+        public string ApproveClarification { get; private set; }
+
+        public string DeclineClarification { get; private set; }
+
+        [BindProperty]
+        public Fact Fact { get; set; }
+
+        public void OnGet(int id)
+        {
+            var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
+            Fact = factRepository.GetById(id);
+
+            if (Fact.Status != FactStatus.Registered)
+            {
+                RedirectToPage("Index");
+            }
+
+            ApproveAllowed = Fact.WinnerName != currentUser
+                                && Fact.CreatorName != currentUser;
+            DeclineAllowed = Fact.LoserName != currentUser;
+
+            ApproveClarification = ApproveAllowed ? string.Empty : "Find another person to approve";
+            DeclineClarification = DeclineAllowed ? string.Empty : "Find another person to decline";
+        }
+
+        public void OnPostApprove()
+        {
+            var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
+            Fact.Approve(currentUser);
+            factRepository.Save(Fact);
+
+            RedirectToPage("Index");
+        }
+
+        public void OnPostDecline()
+        {
+            var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
+            Fact.Decline(currentUser);
+            factRepository.Save(Fact);
+
+            RedirectToPage("Index");
         }
     }
 }
