@@ -1,4 +1,5 @@
 ﻿@page
+@using IdentityServer4.Extensions
 @using Poltorachka.Domain
 @using Poltorachka.Pages
 @model Poltorachka.Pages.IndexModel
@@ -64,14 +65,15 @@
             <td>@fact.ApproverName</td>
             <td>@fact.Score
             </td>
-            <td>@if (fact.Status == FactStatus.Registered)
-                    {
-                        <a asp-page="FactEdit" asp-route-id="@fact.FactId">Edit</a>
-                    }
-                    else
-                    {
-                        <span class="label label-success">@fact.Status.ToString()</span>
-                    }
+            <td>
+                @if (User.IsAuthenticated() && fact.Status == FactStatus.Pending)
+                {
+                    <a asp-page="FactEdit" asp-route-id="@fact.FactId">@fact.Status.ToString()</a>
+                }
+                else
+                {
+                    @fact.Status.ToString()
+                }
             </td>
         </tr>
     }

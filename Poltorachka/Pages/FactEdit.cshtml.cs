@@ -32,7 +32,7 @@ namespace Poltorachka.Pages
             var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
             Fact = factRepository.GetById(id);
 
-            if (Fact.Status != FactStatus.Registered)
+            if (Fact.Status != FactStatus.Pending)
             {
                 RedirectToPage("Index");
             }

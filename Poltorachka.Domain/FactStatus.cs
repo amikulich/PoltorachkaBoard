@@ -2,7 +2,7 @@
 {
     public enum FactStatus
     {
-        Registered = 1,
+        Pending = 1,
         Approved = 2,
         Expired = 3,
         Canceled = 4,

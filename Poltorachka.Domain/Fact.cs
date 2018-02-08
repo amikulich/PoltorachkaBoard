@@ -28,7 +28,7 @@ namespace Poltorachka.Domain
             }
             else
             {
-                Status = FactStatus.Registered;
+                Status = FactStatus.Pending;
                 Events.Add(new FactRegisteredEvent(winnerName, loserName, creatorName, Date));
             }
         }
