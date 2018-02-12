@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Poltorachka.IdentityServer.Models.AccountViewModels
 {
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MinLength(3)]
+        [MaxLength(128)]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
