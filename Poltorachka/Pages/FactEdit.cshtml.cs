@@ -45,22 +45,24 @@ namespace Poltorachka.Pages
             DeclineClarification = DeclineAllowed ? string.Empty : "Find another person to decline";
         }
 
-        public void OnPostApprove()
+        public ActionResult OnPostApprove(int id)
         {
             var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
+            Fact = factRepository.GetById(id);
             Fact.Approve(currentUser);
             factRepository.Save(Fact);
 
-            RedirectToPage("Index");
+            return RedirectToPage("/Index");
         }
 
-        public void OnPostDecline()
+        public ActionResult OnPostDecline(int id)
         {
             var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
+            Fact = factRepository.GetById(id);
             Fact.Decline(currentUser);
             factRepository.Save(Fact);
 
-            RedirectToPage("Index");
+            return RedirectToPage("/Index");
         }
     }
 }

@@ -100,11 +100,13 @@ namespace Poltorachka.DataAccess
                         UPDATE [dbo].[fact]
                         SET approver_id = @ApproverId
                             ,status = @Status
+                        WHERE fact_id = @FactId
                     ",
                     new
                         {
                             ApproverName = fact.ApproverName,
-                            Status = fact.Status
+                            Status = fact.Status,
+                            FactId = fact.FactId,
                     });
                 }
 

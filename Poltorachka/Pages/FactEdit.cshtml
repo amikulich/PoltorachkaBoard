@@ -16,8 +16,8 @@
         <input readonly id="score_input" type="text" asp-for="Fact.Score" class="form-control" />
     </div>
     <div class="form-group">
-        <input type="submit" asp-page-handler="Approve" class="btn btn-success" value="Approve" disabled="@(!Model.ApproveAllowed ? "disabled" : null)" />
-        <input type="submit" asp-page-handler="Decline" class="btn btn-danger" value="Decline" disabled="@(!Model.DeclineAllowed ? "disabled" : null)" />
+        <input type="submit" asp-page-handler="Approve" asp-route-id="@Model.Fact.FactId" class="btn btn-success" value="Approve" disabled="@(!Model.ApproveAllowed ? "disabled" : null)" />
+        <input type="submit" asp-page-handler="Decline" asp-route-id="@Model.Fact.FactId" class="btn btn-danger" value="Decline" disabled="@(!Model.DeclineAllowed ? "disabled" : null)" />
         <a asp-page="./Index" class="btn btn-link">Cancel</a>
     </div>
 </form>
