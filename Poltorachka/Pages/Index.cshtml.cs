@@ -31,7 +31,7 @@ namespace Poltorachka.Pages
         {
             var fact = repository.GetById(factId);
 
-            var userName = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
+            var userName = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
 
             fact.Approve(userName);
 

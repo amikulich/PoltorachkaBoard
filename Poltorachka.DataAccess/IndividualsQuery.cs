@@ -12,9 +12,9 @@ namespace Poltorachka.DataAccess
         private readonly IConfiguration configuration;
 
         private const string Sql = @"
-            SELECT [ind_id]
-                  ,[name]
-                  ,r.Email
+            SELECT i.[ind_id]
+                  ,i.[name]
+                  ,r.[UserName]
             FROM [dbo].[individual] i
             LEFT JOIN [dbo].[AspNetUsers] r ON r.Id = i.[user_id]";
 
@@ -29,7 +29,10 @@ namespace Poltorachka.DataAccess
             {
                 conn.Open();
 
-                return conn.Query(Sql).Select(i => new Individual(i.ind_id, i.name, i.Email)).ToList();
+                return conn.Query(Sql).Select(i => i.UserName != null ?
+                    new Individual(i.ind_id, i.name, i.UserName)
+                    : new Individual(i.ind_id, i.name))
+                    .ToList();
             }
         }
     }

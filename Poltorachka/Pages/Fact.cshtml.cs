@@ -39,7 +39,8 @@ namespace Poltorachka.Pages
                 return Page();
             }
 
-            var creatorName = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.Email).Name;
+            var creatorName = individualsQuery.Execute()
+                    .Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
 
             factRepository.Save(new Fact(Fact.WinnerName, Fact.LoserName, creatorName, Fact.Score));
 
