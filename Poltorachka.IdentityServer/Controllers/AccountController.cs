@@ -34,7 +34,7 @@ namespace Poltorachka.IdentityServer.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
-            _logger = logger;
+            _logger = logger; 
         }
 
         [TempData]

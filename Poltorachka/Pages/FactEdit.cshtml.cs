@@ -29,7 +29,7 @@ namespace Poltorachka.Pages
 
         public void OnGet(int id)
         {
-            var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
+            var currentUser = individualsQuery.Execute().Single(u => User.GetUserName() == u.UserName).Name;
             Fact = factRepository.GetById(id);
 
             if (Fact.Status != FactStatus.Pending)
@@ -47,7 +47,7 @@ namespace Poltorachka.Pages
 
         public ActionResult OnPostApprove(int id)
         {
-            var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
+            var currentUser = individualsQuery.Execute().Single(u => User.GetUserName() == u.UserName).Name;
             Fact = factRepository.GetById(id);
             Fact.Approve(currentUser);
             factRepository.Save(Fact);
@@ -57,7 +57,7 @@ namespace Poltorachka.Pages
 
         public ActionResult OnPostDecline(int id)
         {
-            var currentUser = individualsQuery.Execute().Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
+            var currentUser = individualsQuery.Execute().Single(u => User.GetUserName() == u.UserName).Name;
             Fact = factRepository.GetById(id);
             Fact.Decline(currentUser);
             factRepository.Save(Fact);

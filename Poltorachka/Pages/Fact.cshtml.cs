@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +41,7 @@ namespace Poltorachka.Pages
                 return Page();
             }
 
-            var creatorName = individualsQuery.Execute()
-                    .Single(u => User.Claims.Single(c => c.Type == "name").Value == u.UserName).Name;
+            var creatorName = individualsQuery.Execute().Single(u => User.GetUserName() == u.UserName).Name;
 
             factRepository.Save(new Fact(Fact.WinnerName, Fact.LoserName, creatorName, Fact.Score));
 

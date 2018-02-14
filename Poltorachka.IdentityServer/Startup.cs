@@ -74,7 +74,7 @@ namespace Poltorachka.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         "api1"
                     },
-                    AllowOfflineAccess = true
+                    AllowOfflineAccess = true, 
                 }
             };
         }
