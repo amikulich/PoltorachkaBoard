@@ -49,11 +49,12 @@ namespace Poltorachka.Domain
 
         public DateTime Date { get; set; }
 
-        public void Decline(string currentUser)
+        public void Decline(string userName)
         {
-            if (currentUser != LoserName)
+            if (userName != LoserName)
             {
                 Status = FactStatus.Canceled;
+                ApproverName = userName;
                 return;
             }
 
@@ -65,6 +66,7 @@ namespace Poltorachka.Domain
             if (approverName != WinnerName && approverName != CreatorName)
             {
                 Status = FactStatus.Approved;
+                ApproverName = approverName;
                 return;
             }
 
