@@ -45,38 +45,32 @@ namespace Poltorachka.IdentityServer
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(GetClients())
+                .AddInMemoryApiResources(new List<ApiResource> { new ApiResource("Poltorachka.Identity", "Poltorachka Identity Server") })
+                .AddInMemoryClients(new List<Client> {GetPoltorachkaBoardClient()})
                 .AddAspNetIdentity<ApplicationUser>();
         }
 
-        private IEnumerable<Client> GetClients()
+        private Client GetPoltorachkaBoardClient()
         {
             var section = Configuration.GetSection("PBClient");
             var clientUrl = section.GetValue<string>("Url");
 
-            // client credentials client
-            return new List<Client>
-            {
-                // OpenID Connect hybrid flow and client credentials client (MVC)
-                new Client
+            return new Client
                 {
                     ClientId = section.GetValue<string>("ClientId"),
                     ClientName = section.GetValue<string>("ClientName"),
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     RequireConsent = false,
-                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    ClientSecrets = { new Secret(section.GetValue<string>("ClientSecret").Sha256()) },
                     RedirectUris = { $"{clientUrl}/signin-oidc" },
                     PostLogoutRedirectUris = { $"{clientUrl}/signout-callback-oidc" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "api1"
+                        "Poltorachka.Identity"
                     },
-                    AllowOfflineAccess = true, 
-                }
-            };
+                };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

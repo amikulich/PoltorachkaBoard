@@ -32,6 +32,8 @@ namespace Poltorachka
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
+            var authSection = Configuration.GetSection("Authentication");
+
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = "Cookies";
@@ -42,19 +44,17 @@ namespace Poltorachka
                 {
                     options.SignInScheme = "Cookies";
 
-                    options.Authority = Configuration.GetSection("Authentication")
-                        .GetValue<string>("IdentityServerUrl");
+                    options.Authority = authSection.GetValue<string>("Url");
                     options.RequireHttpsMetadata = false;
 
-                    options.ClientId = "mvc";
-                    options.ClientSecret = "secret";
+                    options.ClientId = authSection.GetValue<string>("ClientId");
+                    options.ClientSecret = authSection.GetValue<string>("ClientSecret");
                     options.ResponseType = "code id_token";
 
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
 
-                    options.Scope.Add("api1");
-                    options.Scope.Add("offline_access");
+                    options.Scope.Add("Poltorachka.Identity");
                 });
         }
 
