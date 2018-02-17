@@ -3,15 +3,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Models\LoginViewModel.cs" />
-    <Compile Remove="Pages\Account.cshtml.cs" />
-    <Compile Remove="Pages\DevClub.cshtml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Pages\Account.cshtml" />
-    <Content Remove="Pages\DevClub.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
   </ItemGroup>
