@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Poltorachka.Domain;
 
@@ -31,7 +32,7 @@ namespace Poltorachka.Pages
         {
             var fact = repository.GetById(factId);
 
-            var userName = individualsQuery.Execute().Single(u => User.GetUserName() == u.UserName).Name;
+            var userName = individualsQuery.Execute().Single(u => User.Identity.Name == u.UserName).Name;
 
             fact.Approve(userName);
 

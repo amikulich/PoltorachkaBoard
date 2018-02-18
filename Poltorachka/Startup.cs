@@ -35,7 +35,17 @@ namespace Poltorachka
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminAccess", (policy) =>
+                    policy.RequireRole(Roles.CreateAndEditFacts));
+            });
+
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Facts", "AdminAccess");
+                });
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<IFactRepository, FactRepository>();

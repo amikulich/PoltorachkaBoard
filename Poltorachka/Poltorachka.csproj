@@ -13,4 +13,7 @@
     <ProjectReference Include="..\Poltorachka.DataAccess\Poltorachka.DataAccess.csproj" />
     <ProjectReference Include="..\Poltorachka.Domain\Poltorachka.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\DevClub\" />
+  </ItemGroup>
 </Project>

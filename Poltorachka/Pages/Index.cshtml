@@ -1,7 +1,9 @@
 ﻿@page
-@using IdentityServer4.Extensions
+@using Microsoft.AspNetCore.Identity
 @using Poltorachka.Domain
 @using Poltorachka.Pages
+@inject UserManager<ApplicationUser> UserManager
+
 @model Poltorachka.Pages.IndexModel
 @{
     ViewData["Title"] = "Dashboard";
@@ -66,9 +68,9 @@
             <td>@fact.Score
             </td>
             <td>
-                @if (User.IsAuthenticated() && fact.Status == FactStatus.Pending)
+                @if (User.IsInRole(Roles.CreateAndEditFacts) && fact.Status == FactStatus.Pending)
                 {
-                    <a asp-page="FactEdit" asp-route-id="@fact.FactId">@fact.Status.ToString()</a>
+                    <a asp-page="./Facts/FactEdit" asp-route-id="@fact.FactId">@fact.Status.ToString()</a>
                 }
                 else
                 {
@@ -79,9 +81,9 @@
     }
     </tbody>
 </table>
-@if (User.Identity.IsAuthenticated)
+@if (User.IsInRole(Roles.CreateAndEditFacts))
 {
     <div>
-        <a asp-page="./Fact" class="btn btn-primary">Register</a>
+        <a asp-page="./Facts/Fact" class="btn btn-primary">Register</a>
     </div>
 }
