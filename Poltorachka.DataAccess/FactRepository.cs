@@ -23,7 +23,7 @@ namespace Poltorachka.DataAccess
             {
                 conn.Open();
 
-                var facts = conn.Query("SELECT [fact_id], [winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [date] FROM [dbo].[Fact]")
+                var facts = conn.Query("SELECT [fact_id], [winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [date], [description] FROM [dbo].[Fact]")
                     .Select(f => new FactMap
                     {
                         FactId = f.fact_id,
@@ -33,7 +33,8 @@ namespace Poltorachka.DataAccess
                         ApproverId = f.approver_id,
                         CreatorId = f.creator_id,
                         Status = f.status,
-                        Score = f.score
+                        Score = f.score,
+                        Description = f.description
                     }).ToList();
 
                 facts.ForEach(f => DateTime.SpecifyKind(f.Date, DateTimeKind.Utc));
@@ -49,6 +50,7 @@ namespace Poltorachka.DataAccess
                 {
                     FactId = f.FactId,
                     Date = f.Date,
+                    Description = f.Description,
                     LoserName = names.Single(n => n.IndividualId == f.LoserId).IndividualName,
                     Score = (byte) f.Score,
                     Status = (FactStatus)f.Status,
@@ -75,8 +77,8 @@ namespace Poltorachka.DataAccess
                         SELECT @ApproverId = ind_id FROM [dbo].[individual] WHERE name = @ApproverName
                         SELECT @CreatorId = ind_id FROM [dbo].[individual] WHERE name = @CreatorName
 
-                        INSERT INTO [dbo].[fact] ([winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [date])
-                        VALUES (@WinnerId, @LoserId, @CreatorId, @ApproverId, @Status, @Score, @Date);
+                        INSERT INTO [dbo].[fact] ([winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [description], [date])
+                        VALUES (@WinnerId, @LoserId, @CreatorId, @ApproverId, @Status, @Score, @Description, @Date);
 
                         SET @FactId = SCOPE_IDENTITY();
                     ",
@@ -88,7 +90,8 @@ namespace Poltorachka.DataAccess
                                          ApproverName = fact.ApproverName,
                                          Status = fact.Status,
                                          Score = fact.Score,
-                                         Date = fact.Date
+                                         Date = fact.Date,
+                                         Description = fact.Description,
                                      });
                 }
                 else
@@ -133,6 +136,8 @@ namespace Poltorachka.DataAccess
             public byte Status { get; set; }
 
             public int Score { get; set; }
+
+            public string Description { get; set; }
 
             public DateTime Date { get; set; }
         }

@@ -43,6 +43,7 @@ CREATE TABLE [dbo].[fact] (
 	[approver_id] [int] NULL,
 	[status] [tinyint] NOT NULL,
 	[score] [int] NOT NULL,
+    [description] NVARCHAR(255) NULL,
 	[date] [datetime2](7) NOT NULL,
 
  CONSTRAINT [PK_fact] PRIMARY KEY CLUSTERED 

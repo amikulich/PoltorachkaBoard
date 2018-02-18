@@ -13,5 +13,8 @@ namespace Poltorachka.Models
         [Required(ErrorMessage = "Score must be between 1 to 255")]
         [Range(1, byte.MaxValue)]
         public byte Score { get; set; }
+
+        [MaxLength(255, ErrorMessage = "Description must be less then 255 symbols")]
+        public string Description { get; set; }
     }
 }

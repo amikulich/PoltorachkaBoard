@@ -12,13 +12,15 @@ namespace Poltorachka.Domain
         public Fact(string winnerName, 
             string loserName, 
             string creatorName, 
-            byte score)
+            byte score, 
+            string description)
             : this()
         {
             WinnerName = winnerName;
             LoserName = loserName;
             CreatorName = creatorName;
             Score = score;
+            Description = description;
             Date = DateTime.UtcNow;
 
             if (LoserName == CreatorName)
@@ -44,6 +46,8 @@ namespace Poltorachka.Domain
         public string ApproverName { get; set; }
 
         public byte Score { get; set; }
+
+        public string Description { get; set; }
 
         public FactStatus Status { get; set; }
 
