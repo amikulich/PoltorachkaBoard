@@ -15,6 +15,7 @@ namespace Poltorachka.DataAccess
           (
              SELECT winner_id, SUM(score) 
              FROM fact f
+             WHERE f.status = 2 /*Approved*/
              GROUP BY winner_id
           )
           ,losers (ind_id, score)
@@ -22,6 +23,7 @@ namespace Poltorachka.DataAccess
           (
              SELECT loser_id, SUM(score) 
              FROM fact f
+             WHERE f.status = 2 /*Approved*/
              GROUP BY loser_id  
           )
           SELECT COALESCE(w.ind_id, l.ind_id) AS IndividualId
