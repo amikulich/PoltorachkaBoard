@@ -1,6 +1,5 @@
 ﻿@page
 @using Microsoft.AspNetCore.Identity
-@using Poltorachka.Domain
 @using Poltorachka.Pages
 @inject UserManager<ApplicationUser> UserManager
 
@@ -68,7 +67,7 @@
             <td>@fact.Score
             </td>
             <td>
-                @if (User.IsInRole(Roles.CreateAndEditFacts) && fact.Status == FactStatus.Pending)
+                @if (User.IsInRole(Roles.CreateAndEditFacts) && fact.Status == FactStatusViewModel.Pending)
                 {
                     <a asp-page="./Facts/FactEdit" asp-route-id="@fact.FactId">@fact.Status.ToString()</a>
                 }

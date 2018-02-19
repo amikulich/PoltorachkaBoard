@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Poltorachka.Domain;
+using Poltorachka.Models;
 
 namespace Poltorachka.Pages.Facts
 {
@@ -19,7 +20,7 @@ namespace Poltorachka.Pages.Facts
         }
 
         [BindProperty]
-        public Models.CreateFactModel Fact { get; set; }
+        public CreateFactViewModel Fact { get; set; }
 
         public SelectList UserNames { get; set; }
 
