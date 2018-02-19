@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Poltorachka.Domain;
 using Poltorachka.Models;
+using Poltorachka.Services;
 
 namespace Poltorachka.Pages.Facts
 {
     public class CreateFactModel : PageModel
     {
-        private readonly IFactRepository factRepository;
-
+        private readonly IFactService factService;
         private readonly IIndividualsQuery individualsQuery;
 
-        public CreateFactModel(IFactRepository factRepository, IIndividualsQuery individualsQuery)
+        public CreateFactModel(IFactService factService, IIndividualsQuery individualsQuery)
         {
-            this.factRepository = factRepository;
+            this.factService = factService;
             this.individualsQuery = individualsQuery;
         }
 
@@ -38,7 +38,7 @@ namespace Poltorachka.Pages.Facts
 
             var creatorName = individualsQuery.Execute().Single(u => User.Identity.Name == u.UserName).Name;
 
-            factRepository.Save(new Fact(Fact.WinnerName, Fact.LoserName, creatorName, Fact.Score, Fact.Description));
+            factService.Create(Fact.WinnerName, Fact.LoserName, Fact.Score, Fact.Description, creatorName);
 
             return RedirectToPage("/Index");
         }

@@ -8,6 +8,7 @@ using Poltorachka.Data;
 using Poltorachka.DataAccess;
 using Poltorachka.Domain;
 using Poltorachka.Models;
+using Poltorachka.Services;
 
 namespace Poltorachka
 {
@@ -46,9 +47,11 @@ namespace Poltorachka
                 });
 
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddSingleton<IFactRepository, FactRepository>();
-            services.AddSingleton<IFactSummaryQuery, FactSummaryQuery>(); 
-            services.AddSingleton<IIndividualsQuery, IndividualsQuery>();
+            services.AddScoped<IFactService, FactService>();
+            services.AddScoped<IFactsService, FactsService>();
+            services.AddScoped<IFactRepository, FactRepository>();
+            services.AddScoped<IFactSummaryQuery, FactSummaryQuery>(); 
+            services.AddScoped<IIndividualsQuery, IndividualsQuery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

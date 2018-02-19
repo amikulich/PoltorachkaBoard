@@ -1,53 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Poltorachka.Domain;
-using Poltorachka.Models;
 
 namespace Poltorachka.Services
 {
-    public interface IFactsService
+    public interface IFactService
     {
-        ICollection<FactViewModel> GetAll();
-
-        void Create(CreateFactViewModel fact, Guid userId);
+        void Create(string winnerName,
+            string loserName,
+            byte score,
+            string description,
+            string userName);
     }
 
-    public class FactsService : IFactsService
+    public class FactService : IFactService
     {
         private readonly IFactRepository factRepository;
         private readonly IIndividualsQuery individualsQuery;
 
-        public FactsService(IFactRepository factRepository,
-            IIndividualsQuery individualsQuery)
+        public FactService(IFactRepository factRepository, IIndividualsQuery individualsQuery)
         {
             this.factRepository = factRepository;
             this.individualsQuery = individualsQuery;
         }
 
-        public ICollection<FactViewModel> GetAll()
+        public void Create(string winnerName, string loserName, byte score, string description, string userName)
         {
-            var facts = factRepository.Get();
+            var creatorName = individualsQuery.Execute().Single(u => u.Name == userName).Name;
 
-            return facts.Select(f => new FactViewModel()
-            {
-                ApproverName = f.ApproverName,
-                CreatorName = f.CreatorName,
-                WinnerName = f.WinnerName,
-                LoserName = f.LoserName,
-                Description = f.Description,
-                FactId = f.FactId,
-                Date = f.Date,
-                Score = f.Score,
-                Status = (FactStatusViewModel) f.Status
-            }).ToList();
-        }
-
-        public void Create(CreateFactViewModel fact, Guid userId)
-        {
-            var creatorName = individualsQuery.Execute().Where(u => u.);
-
-            factRepository.Save(new Fact(fact.WinnerName, fact.LoserName, creatorName, fact.Score, fact.Description));
+            factRepository.Save(new Fact(winnerName, loserName, creatorName, score, description));
         }
     }
 }
