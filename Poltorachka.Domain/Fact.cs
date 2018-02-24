@@ -1,80 +1,86 @@
 ﻿using System;
-using Poltorachka.Domain.Events;
+using System.Runtime.CompilerServices;
+
+[assembly:InternalsVisibleTo("Poltorachka.DataAccess")]
 
 namespace Poltorachka.Domain
 {
     public class Fact : DomainEntity
     {
-        public Fact()
+        internal Fact()
         {
         }
 
-        public Fact(string winnerName, 
-            string loserName, 
-            string creatorName, 
+        public Fact(int winnerId, 
+            int loserId,
+            int creatorId,
             byte score, 
-            string description)
+            string description,
+            Func<int, byte> userRemainingBalanceFunc)
             : this()
         {
-            WinnerName = winnerName;
-            LoserName = loserName;
-            CreatorName = creatorName;
+            Assert.NotNull(userRemainingBalanceFunc, nameof(userRemainingBalanceFunc));
+
+            Assert.That(winnerId > 0, "Winner id must be provided");
+            Assert.That(loserId > 0, "Loser id must be provided");
+            Assert.That(creatorId > 0, "Creator id must be provided");
+
+            Assert.That(score > 0 && score < 4, "Score must be between 1 and 4");
+            Assert.That(userRemainingBalanceFunc(loserId) >= score, "You exceeded the limit of 4 Poltorachka this month");
+
+            WinnerId = winnerId;
+            LoserId = loserId;
+            CreatorId = creatorId;
             Score = score;
             Description = description;
             Date = DateTime.UtcNow;
 
-            if (LoserName == CreatorName)
+            if (LoserId == CreatorId)
             {
-                ApproverName = CreatorName;
+                ApproverId = CreatorId;
                 Status = FactStatus.Approved;
             }
             else
             {
                 Status = FactStatus.Pending;
-                Events.Add(new FactRegisteredEvent(winnerName, loserName, creatorName, Date));
             }
         }
 
-        public int FactId { get; set; }
+        public int FactId { get; internal set; }
 
-        public string WinnerName { get; set; }
+        public int WinnerId { get; internal set; }
 
-        public string LoserName { get; set; }
+        public int LoserId { get; internal set; }
 
-        public string CreatorName { get; set; }
+        public int CreatorId { get; internal set; }
 
-        public string ApproverName { get; set; }
+        public int? ApproverId { get; internal set; }
 
-        public byte Score { get; set; }
+        public byte Score { get; internal set; }
 
-        public string Description { get; set; }
+        public string Description { get; internal set; }
 
-        public FactStatus Status { get; set; }
+        public FactStatus Status { get; internal set; }
 
-        public DateTime Date { get; set; }
+        public DateTime Date { get; internal set; }
 
-        public void Decline(string userName)
+        public void Decline(int witnessId)
         {
-            if (userName != LoserName)
-            {
-                Status = FactStatus.Canceled;
-                ApproverName = userName;
-                return;
-            }
+            Assert.That(witnessId != LoserId, "Loser cannot decline the fact");
+            Assert.That(Status == FactStatus.Pending, "A fact should be in the Pending status");
 
-            throw new InvalidOperationException("Loser cannot decline the fact");
+            Status = FactStatus.Canceled;
+            ApproverId = witnessId;
         }
 
-        public void Approve(string approverName)
+        public void Approve(int witnessId)
         {
-            if (approverName != WinnerName && approverName != CreatorName)
-            {
-                Status = FactStatus.Approved;
-                ApproverName = approverName;
-                return;
-            }
+            Assert.That(witnessId != WinnerId, "A winner cannot approve a fact");
+            Assert.That(witnessId != CreatorId, "A creator cannot approve a fact");
+            Assert.That(Status == FactStatus.Pending, "A fact should be in the Pending status");
 
-            throw new InvalidOperationException("Winner or Creator cannot approve the fact");
+            Status = FactStatus.Approved;
+            ApproverId = witnessId;
         }
     }
 }

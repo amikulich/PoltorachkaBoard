@@ -2,23 +2,15 @@
 
 namespace Poltorachka.Models
 {
-    public class FactViewModel
+    public class FactDashboardViewModel
     {
         public int FactId { get; set; }
 
-        public int WinnerId { get; set; }
-
         public string WinnerName { get; set; }
-
-        public int LoserId { get; set; }
 
         public string LoserName { get; set; }
 
-        public int CreatorId { get; set; }
-
         public string CreatorName { get; set; }
-
-        public int? WitnessId { get; set; }
 
         public string WitnessName { get; set; }
 
@@ -31,14 +23,4 @@ namespace Poltorachka.Models
         public FactStatusViewModel Status { get; set; }
     }
 
-    public enum FactStatusViewModel
-    {
-        Pending = 1,
-
-        Approved = 2,
-
-        Expired = 3,
-
-        Canceled = 4,
-    }
 }

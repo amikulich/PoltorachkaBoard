@@ -2,24 +2,17 @@
 {
     public class Individual
     {
-        public Individual(int individualId, string name, string userName)
+        public Individual(int indId, string name)
         {
-            IndividualId = individualId;
+            Assert.That(indId > 0, "[ind_id] should be > 0");
+            Assert.NotNullOrEmpty(name, nameof(name));
+
+            IndId = indId;
             Name = name;
-            UserName = userName;
         }
 
-        public Individual(int individualId, string name)
-        {
-            IndividualId = individualId;
-            Name = name;
-            UserName = null;
-        }
-
-        public int IndividualId { get; }
+        public int IndId { get; }
 
         public string Name { get; }
-
-        public string UserName { get; }
     }
 }

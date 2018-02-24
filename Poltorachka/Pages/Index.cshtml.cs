@@ -8,18 +8,18 @@ namespace Poltorachka.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly IFactsService factsService;
+        private readonly IFactsDashboardService _factsDashboardService;
 
-        public IndexModel(IFactsService factsService)
+        public IndexModel(IFactsDashboardService factsDashboardService)
         {
-            this.factsService = factsService;
+            this._factsDashboardService = factsDashboardService;
         }
 
-        public IEnumerable<FactViewModel> Facts { get; private set; }
+        public IEnumerable<FactDashboardViewModel> Facts { get; private set; }
 
         public void OnGet()
         {
-            Facts = factsService.GetAll().OrderByDescending(f => f.Date);
+            Facts = _factsDashboardService.GetAll().OrderByDescending(f => f.Date);
         }
     }
 }

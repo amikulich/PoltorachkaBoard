@@ -1,19 +1,19 @@
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Poltorachka.Domain;
+using Poltorachka.Models;
+using Poltorachka.Services;
 
 namespace Poltorachka.Pages.Facts
 {
-    public class FactEditModel : PageModel
+    public class FactEditModel : PageModelBase
     {
-        private readonly IFactRepository factRepository;
-        private readonly IIndividualsQuery individualsQuery;
+        private readonly IFactService _factService;
+        private readonly IIndividualsQuery _individualsQuery;
 
-        public FactEditModel(IFactRepository factRepository, IIndividualsQuery individualsQuery)
+        public FactEditModel(IFactService factService, IIndividualsQuery individualsQuery)
         {
-            this.factRepository = factRepository;
-            this.individualsQuery = individualsQuery;
+            _factService = factService;
+            _individualsQuery = individualsQuery;
         }
 
         public bool ApproveAllowed { get; private set; }
@@ -25,21 +25,22 @@ namespace Poltorachka.Pages.Facts
         public string DeclineClarification { get; private set; }
 
         [BindProperty]
-        public Fact Fact { get; set; }
+        public FactViewModel Fact { get; set; }
 
         public void OnGet(int id)
         {
-            var currentUser = individualsQuery.Execute().Single(u => User.Identity.Name == u.UserName).Name;
-            Fact = factRepository.GetById(id);
+            Fact = _factService.Get(id);
 
-            if (Fact.Status != FactStatus.Pending)
+            if (Fact.Status != FactStatusViewModel.Pending)
             {
                 RedirectToPage("Index");
             }
 
-            ApproveAllowed = Fact.WinnerName != currentUser
-                                && Fact.CreatorName != currentUser;
-            DeclineAllowed = Fact.LoserName != currentUser;
+            var indId = _individualsQuery.Execute(UserId).IndId;
+
+            ApproveAllowed = Fact.WinnerId != indId
+                                && Fact.CreatorId != indId;
+            DeclineAllowed = Fact.LoserId != indId;
 
             ApproveClarification = ApproveAllowed ? string.Empty : "Find another person to approve";
             DeclineClarification = DeclineAllowed ? string.Empty : "Find another person to decline";
@@ -47,20 +48,14 @@ namespace Poltorachka.Pages.Facts
 
         public ActionResult OnPostApprove(int id)
         {
-            var currentUser = individualsQuery.Execute().Single(u => User.Identity.Name == u.UserName).Name;
-            Fact = factRepository.GetById(id);
-            Fact.Approve(currentUser);
-            factRepository.Save(Fact);
+            _factService.Update(id, UserId, FactStatusViewModel.Approved);
 
             return RedirectToPage("/Index");
         }
 
         public ActionResult OnPostDecline(int id)
         {
-            var currentUser = individualsQuery.Execute().Single(u => User.Identity.Name == u.UserName).Name;
-            Fact = factRepository.GetById(id);
-            Fact.Decline(currentUser);
-            factRepository.Save(Fact);
+            _factService.Update(id, UserId, FactStatusViewModel.Canceled);
 
             return RedirectToPage("/Index");
         }

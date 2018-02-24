@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Poltorachka.Domain;
 using Poltorachka.Models;
 
 namespace Poltorachka.Services
 {
-    public interface IFactsService
+    public interface IFactsDashboardService
     {
-        ICollection<FactViewModel> GetAll();
+        ICollection<FactDashboardViewModel> GetAll();
     }
 
-    public class FactsService : IFactsService
+    public class FactsDashboardService : IFactsDashboardService
     {
-        private readonly IFactRepository factRepository;
-        private readonly IIndividualsQuery individualsQuery;
+        private readonly IFactsQuery _factsQuery;
 
-        public FactsService(IFactRepository factRepository,
-            IIndividualsQuery individualsQuery)
+        public FactsDashboardService(IFactsQuery factsQuery)
         {
-            this.factRepository = factRepository;
-            this.individualsQuery = individualsQuery;
+            _factsQuery = factsQuery;
         }
 
-        public ICollection<FactViewModel> GetAll()
+        public ICollection<FactDashboardViewModel> GetAll()
         {
-            var facts = factRepository.Get();
+            var facts = _factsQuery.Execute();
 
-            return facts.Select(f => new FactViewModel()
+            return facts.Select(f => new FactDashboardViewModel()
             {
-                ApproverName = f.ApproverName,
+                WitnessName = f.WitnessName,
                 CreatorName = f.CreatorName,
                 WinnerName = f.WinnerName,
                 LoserName = f.LoserName,

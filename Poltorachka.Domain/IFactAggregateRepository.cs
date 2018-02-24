@@ -1,9 +1,9 @@
 ﻿namespace Poltorachka.Domain
 {
-    public interface IFactRepository
+    public interface IFactAggregateRepository
     {
         void Save(Fact fact);
 
-        Fact GetById(int factId);
+        Fact Get(int factId);
     }
 }

@@ -48,10 +48,13 @@ namespace Poltorachka
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<IFactService, FactService>();
-            services.AddScoped<IFactsService, FactsService>();
-            services.AddScoped<IFactRepository, FactRepository>();
-            services.AddScoped<IFactSummaryQuery, FactSummaryQuery>(); 
+            services.AddScoped<IIndividualsService, UsersService>();
+            services.AddScoped<IFactsDashboardService, FactsDashboardService>();
+            services.AddScoped<IFactAggregateRepository, FactAggregateRepository>();
+            services.AddScoped<IFactSummaryQuery, FactSummaryQuery>();
+            services.AddScoped<IFactsQuery, FactsQuery>();
             services.AddScoped<IIndividualsQuery, IndividualsQuery>();
+            services.AddScoped<IUserRemainingBalanceQuery, UserRemainingBalanceQuery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,32 +1,29 @@
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Poltorachka.Domain;
 using Poltorachka.Models;
 using Poltorachka.Services;
 
 namespace Poltorachka.Pages.Facts
 {
-    public class CreateFactModel : PageModel
+    public class CreateFactModel : PageModelBase
     {
-        private readonly IFactService factService;
-        private readonly IIndividualsQuery individualsQuery;
+        private readonly IFactService _factService;
+        private readonly IIndividualsService _individualsService;
 
-        public CreateFactModel(IFactService factService, IIndividualsQuery individualsQuery)
+        public CreateFactModel(IFactService factService, IIndividualsService individualsService)
         {
-            this.factService = factService;
-            this.individualsQuery = individualsQuery;
+            _factService = factService;
+            _individualsService = individualsService;
         }
 
         [BindProperty]
         public CreateFactViewModel Fact { get; set; }
 
-        public SelectList UserNames { get; set; }
+        public SelectList Individuals { get; set; }
 
         public void OnGet()
         {
-            UserNames = new SelectList(individualsQuery.Execute().Select(i => i.Name));
+            Individuals = new SelectList(_individualsService.Get(), nameof(IndividualModel.IndId), nameof(IndividualModel.Name));
         }
 
         public ActionResult OnPost()
@@ -36,9 +33,7 @@ namespace Poltorachka.Pages.Facts
                 return Page();
             }
 
-            var creatorName = individualsQuery.Execute().Single(u => User.Identity.Name == u.UserName).Name;
-
-            factService.Create(Fact.WinnerName, Fact.LoserName, Fact.Score, Fact.Description, creatorName);
+            _factService.Create(Fact.WinnerIndId, Fact.LoserIndId, UserId, Fact.Score, Fact.Description);
 
             return RedirectToPage("/Index");
         }
