@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Poltorachka.Domain;
 using Poltorachka.Domain.Individuals;
 using Poltorachka.Models;
 using Poltorachka.Services;

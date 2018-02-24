@@ -49,7 +49,7 @@ namespace Poltorachka.Services
             }
             catch (DomainAssertException exception)
             {
-                Console.WriteLine(exception);
+                throw new AppServiceException(exception.Message, exception);
             }
         }
 
@@ -97,8 +97,7 @@ namespace Poltorachka.Services
             }
             catch (DomainAssertException exception)
             {
-                Console.WriteLine(exception);
-                throw;
+                throw new AppServiceException(exception.Message, exception);
             }
         }
     }

@@ -27,8 +27,7 @@ namespace Poltorachka.Domain
             Assert.That(loserId > 0, "Loser id must be provided");
             Assert.That(creatorId > 0, "Creator id must be provided");
 
-            Assert.That(score > 0 && score < 4, "Score must be between 1 and 4");
-            Assert.That(userRemainingBalanceFunc(loserId) >= score, "You exceeded the limit of 4 Poltorachka this month");
+            Assert.That(userRemainingBalanceFunc(loserId) >= score, "Month limit exceeded for this user");
 
             WinnerId = winnerId;
             LoserId = loserId;

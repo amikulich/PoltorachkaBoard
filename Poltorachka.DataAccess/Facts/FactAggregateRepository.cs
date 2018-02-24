@@ -28,6 +28,8 @@ namespace Poltorachka.DataAccess.Facts
                     fact.FactId = conn.Query<int>(@"
                         INSERT INTO [dbo].[fact] ([winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [description], [date])
                         VALUES (@WinnerId, @LoserId, @CreatorId, @ApproverId, @Status, @Score, @Description, @Date);
+
+                        SELECT SCOPE_IDENTITY();
                     ",
                                  new
                                      {

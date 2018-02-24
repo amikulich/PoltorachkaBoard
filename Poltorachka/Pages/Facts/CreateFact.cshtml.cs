@@ -19,6 +19,8 @@ namespace Poltorachka.Pages.Facts
         [BindProperty]
         public FactCreateViewModel Fact { get; set; }
 
+        public string GenericErrorMessage { get; private set; }
+
         public SelectList Individuals { get; set; }
 
         public void OnGet()
@@ -30,12 +32,30 @@ namespace Poltorachka.Pages.Facts
         {
             if (!ModelState.IsValid)
             {
+                OnGet();
+
                 return Page();
             }
 
-            _factService.Create(Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
+            try
+            {
+                _factService.Create(Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
 
-            return RedirectToPage("/Index");
+                return RedirectToPage("/Index");
+            }
+            catch (AppServiceException exception)
+            {
+                if (exception.Message == "Month limit exceeded for this user")
+                {
+                    GenericErrorMessage = exception.Message;
+
+                    OnGet();
+
+                    return Page();
+                }
+
+                throw;
+            }
         }
     }
 }
