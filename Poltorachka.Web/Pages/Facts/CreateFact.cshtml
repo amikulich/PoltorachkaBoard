@@ -1,0 +1,34 @@
+﻿@page
+@using Poltorachka.Pages
+@using Poltorachka.Web.Pages.Facts
+@model Poltorachka.Web.Pages.Facts.CreateFactModel
+
+<form asp-action="Post">
+    <div class="form-group">
+        <label for="loser_name_input">Loser</label>
+        <select asp-for="Fact.LoserId" asp-items="Model.Individuals" id="loser_name_input" class="form-control">
+            <option disabled selected style="display:none" label="Select"></option>
+        </select>
+        <span asp-validation-for="Fact.LoserId" class="text-danger"></span>
+        <span class="text-danger">@Model.GenericErrorMessage</span>
+    </div>
+    <div class="form-group">
+        <label for="winner_name_input">Winner</label>
+        <select asp-for="Fact.WinnerId" asp-items="Model.Individuals" placeholder="Enter name" id="winner_name_input" class="form-control">
+            <option disabled selected style="display:none" label="Select"></option>
+        </select>
+        <span asp-validation-for="Fact.WinnerId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="score_input">Score</label>
+        <input asp-for="Fact.Score" placeholder="Enter amount" id="score_input" class="form-control"/>
+        <span asp-validation-for="Fact.Score" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="description_input">Description</label>
+        <input asp-for="Fact.Description" placeholder="Enter description" id="description_input" class="form-control"/>
+        <span asp-validation-for="Fact.Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-page="/Index" class="btn btn-link">Cancel</a>
+</form>

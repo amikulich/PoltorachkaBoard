@@ -1,0 +1,29 @@
+﻿@page
+@using Web.Pages
+@model Web.Pages.SummaryModel
+@{
+    ViewData["Title"] = "Summary";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Who
+            </th>
+            <th>
+                Score
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Summary.Users.OrderByDescending(u => u.Score))
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Score</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
