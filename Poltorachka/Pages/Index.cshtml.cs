@@ -8,11 +8,11 @@ namespace Poltorachka.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly IFactsDashboardService _factsDashboardService;
+        private readonly IDashboardAppService _factsDashboardService;
 
-        public IndexModel(IFactsDashboardService factsDashboardService)
+        public IndexModel(IDashboardAppService factsDashboardService)
         {
-            this._factsDashboardService = factsDashboardService;
+            _factsDashboardService = factsDashboardService;
         }
 
         public IEnumerable<FactDashboardViewModel> Facts { get; private set; }

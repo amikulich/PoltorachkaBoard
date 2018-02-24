@@ -1,4 +1,4 @@
-﻿namespace Poltorachka.Domain
+﻿namespace Poltorachka.Domain.Individuals
 {
     public class Individual
     {

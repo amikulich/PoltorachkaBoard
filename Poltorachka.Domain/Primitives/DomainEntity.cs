@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Poltorachka.Domain.Events;
 
-namespace Poltorachka.Domain
+namespace Poltorachka.Domain.Primitives
 {
     public abstract class DomainEntity
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Poltorachka.Domain
+namespace Poltorachka.Domain.Facts
 {
     public class FactReadModel
     {

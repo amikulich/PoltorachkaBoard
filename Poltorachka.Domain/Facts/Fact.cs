@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Poltorachka.Domain.Facts;
+using Poltorachka.Domain.Primitives;
 
 [assembly:InternalsVisibleTo("Poltorachka.DataAccess")]
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Poltorachka.Domain
+namespace Poltorachka.Domain.Facts
 {
     public class FactSummary
     {

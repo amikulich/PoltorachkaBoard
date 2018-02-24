@@ -1,6 +1,6 @@
-﻿using Poltorachka.Domain;
+﻿using Poltorachka.Domain.Facts;
 
-namespace Poltorachka.DataAccess
+namespace Poltorachka.DataAccess.Facts
 {
     public class UserRemainingBalanceQuery : IUserRemainingBalanceQuery
     {

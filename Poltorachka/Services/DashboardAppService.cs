@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
 using Poltorachka.Models;
 
 namespace Poltorachka.Services
 {
-    public interface IFactsDashboardService
+    public interface IDashboardAppService
     {
         ICollection<FactDashboardViewModel> GetAll();
     }
 
-    public class FactsDashboardService : IFactsDashboardService
+    public class DashboardAppService : IDashboardAppService
     {
         private readonly IFactsQuery _factsQuery;
 
-        public FactsDashboardService(IFactsQuery factsQuery)
+        public DashboardAppService(IFactsQuery factsQuery)
         {
             _factsQuery = factsQuery;
         }

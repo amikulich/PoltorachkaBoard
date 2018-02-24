@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
 
 namespace Poltorachka.Pages
 {

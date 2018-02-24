@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
-using Poltorachka.Domain;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
 
-namespace Poltorachka.DataAccess
+namespace Poltorachka.DataAccess.Facts
 {
     public class FactAggregateRepository : IFactAggregateRepository
     {

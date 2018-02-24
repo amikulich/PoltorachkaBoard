@@ -4,9 +4,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
 
-namespace Poltorachka.DataAccess
+namespace Poltorachka.DataAccess.Facts
 {
     public class FactsQuery : IFactsQuery
     {

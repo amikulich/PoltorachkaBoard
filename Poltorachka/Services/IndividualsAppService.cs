@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Poltorachka.Domain;
+using Poltorachka.Domain.Individuals;
 using Poltorachka.Models;
 
 namespace Poltorachka.Services
 {
-    public interface IIndividualsService
+    public interface IIndividualsAppService
     {
         ICollection<IndividualViewModel> Get();
     }
 
-    public class UsersService : IIndividualsService
+    public class IndividualsAppService : IIndividualsAppService
     {
         private readonly IIndividualsQuery _individualsQuery;
 
-        public UsersService(IIndividualsQuery individualsQuery)
+        public IndividualsAppService(IIndividualsQuery individualsQuery)
         {
             _individualsQuery = individualsQuery;
         }

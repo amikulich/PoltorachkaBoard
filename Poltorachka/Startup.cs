@@ -6,7 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Poltorachka.Data;
 using Poltorachka.DataAccess;
+using Poltorachka.DataAccess.Facts;
+using Poltorachka.DataAccess.Individuals;
 using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
+using Poltorachka.Domain.Individuals;
 using Poltorachka.Models;
 using Poltorachka.Services;
 
@@ -47,9 +51,9 @@ namespace Poltorachka
                 });
 
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddScoped<IFactService, FactService>();
-            services.AddScoped<IIndividualsService, UsersService>();
-            services.AddScoped<IFactsDashboardService, FactsDashboardService>();
+            services.AddScoped<IFactAppService, FactAppService>();
+            services.AddScoped<IIndividualsAppService, IndividualsAppService>();
+            services.AddScoped<IDashboardAppService, DashboardAppService>();
             services.AddScoped<IFactAggregateRepository, FactAggregateRepository>();
             services.AddScoped<IFactSummaryQuery, FactSummaryQuery>();
             services.AddScoped<IFactsQuery, FactsQuery>();

@@ -4,6 +4,7 @@ using System.Linq;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
 
 namespace Poltorachka.DataAccess
 {

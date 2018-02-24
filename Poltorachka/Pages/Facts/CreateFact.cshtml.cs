@@ -7,10 +7,10 @@ namespace Poltorachka.Pages.Facts
 {
     public class CreateFactModel : PageViewModelBase
     {
-        private readonly IFactService _factService;
-        private readonly IIndividualsService _individualsService;
+        private readonly IFactAppService _factService;
+        private readonly IIndividualsAppService _individualsService;
 
-        public CreateFactModel(IFactService factService, IIndividualsService individualsService)
+        public CreateFactModel(IFactAppService factService, IIndividualsAppService individualsService)
         {
             _factService = factService;
             _individualsService = individualsService;

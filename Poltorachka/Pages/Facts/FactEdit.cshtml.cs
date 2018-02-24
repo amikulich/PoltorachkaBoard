@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Poltorachka.Domain;
+using Poltorachka.Domain.Individuals;
 using Poltorachka.Models;
 using Poltorachka.Services;
 
@@ -7,10 +8,10 @@ namespace Poltorachka.Pages.Facts
 {
     public class FactEditModel : PageViewModelBase
     {
-        private readonly IFactService _factService;
+        private readonly IFactAppService _factService;
         private readonly IIndividualsQuery _individualsQuery;
 
-        public FactEditModel(IFactService factService, IIndividualsQuery individualsQuery)
+        public FactEditModel(IFactAppService factService, IIndividualsQuery individualsQuery)
         {
             _factService = factService;
             _individualsQuery = individualsQuery;

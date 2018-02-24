@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Poltorachka.Domain;
+using Poltorachka.Domain.Facts;
+using Poltorachka.Domain.Individuals;
 using Poltorachka.Models;
 
 namespace Poltorachka.Services
 {
-    public interface IFactService
+    public interface IFactAppService
     {
         void Create(int winnerId, int loserId, Guid userId, byte score, string description);
 
@@ -14,14 +16,14 @@ namespace Poltorachka.Services
         void Update(int factId, Guid userId, FactStatusViewModel status);
     }
 
-    public class FactService : IFactService
+    public class FactAppService : IFactAppService
     {
         private readonly IFactAggregateRepository _factAggregateRepository;
         private readonly IUserRemainingBalanceQuery _userRemainingBalanceQuery;
         private readonly IIndividualsQuery _individualsQuery;
         private readonly IFactsQuery _factsQuery;
 
-        public FactService(IFactAggregateRepository factAggregateRepository, 
+        public FactAppService(IFactAggregateRepository factAggregateRepository, 
             IUserRemainingBalanceQuery userRemainingBalanceQuery,
             IIndividualsQuery individualsQuery,
             IFactsQuery factsQuery)
