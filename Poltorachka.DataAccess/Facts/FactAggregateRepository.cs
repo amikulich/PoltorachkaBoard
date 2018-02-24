@@ -26,36 +26,37 @@ namespace Poltorachka.DataAccess.Facts
                 if (fact.FactId == 0)
                 {
                     fact.FactId = conn.Query<int>(@"
-                        INSERT INTO [dbo].[fact] ([winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [description], [date])
-                        VALUES (@WinnerId, @LoserId, @CreatorId, @ApproverId, @Status, @Score, @Description, @Date);
+                        INSERT INTO [dbo].[fact] ([app_id], [winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [description], [date])
+                        VALUES (@appId, @winnerId, @loserId, @creatorId, @approverId, @status, @score, @description, @date);
 
                         SELECT SCOPE_IDENTITY();
                     ",
                                  new
                                      {
-                                         WinnerId = fact.WinnerId,
-                                         LoserId = fact.LoserId,
-                                         CreatorId = fact.CreatorId,
-                                         ApproverId = fact.ApproverId,
-                                         Status = fact.Status,
-                                         Score = fact.Score,
-                                         Date = fact.Date,
-                                         Description = fact.Description,
+                                         appId = fact.AppId,
+                                         winnerId = fact.WinnerId,
+                                         loserId = fact.LoserId,
+                                         creatorId = fact.CreatorId,
+                                         approverId = fact.ApproverId,
+                                         status = fact.Status,
+                                         score = fact.Score,
+                                         date = fact.Date,
+                                         description = fact.Description,
                                      }).Single();
                 }
                 else
                 {
                     conn.Execute(@"
                         UPDATE [dbo].[fact]
-                        SET approver_id = @ApproverId
-                            ,status = @Status
-                        WHERE fact_id = @FactId
+                        SET approver_id = @approverId
+                            ,status = @status
+                        WHERE fact_id = @factId
                     ",
                     new
                         {
-                            ApproverId = fact.ApproverId,
-                            Status = fact.Status,
-                            FactId = fact.FactId,
+                            approverId = fact.ApproverId,
+                            status = fact.Status,
+                            factId = fact.FactId,
                     });
                 }
 
@@ -70,6 +71,7 @@ namespace Poltorachka.DataAccess.Facts
 
                 var fact = conn.Query($@"
                         SELECT [fact_id], 
+                                [app_id],
                                 [winner_id], 
                                 [loser_id], 
                                 [creator_id], 
@@ -83,6 +85,7 @@ namespace Poltorachka.DataAccess.Facts
                     .Select(f => new Fact
                     {
                         FactId = f.fact_id,
+                        AppId = f.app_id,
                         Date = f.date,
                         LoserId = f.loser_id,
                         WinnerId = f.winner_id,

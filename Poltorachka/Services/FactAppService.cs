@@ -9,7 +9,7 @@ namespace Poltorachka.Services
 {
     public interface IFactAppService
     {
-        void Create(int winnerId, int loserId, Guid userId, byte score, string description);
+        void Create(int appId, int winnerId, int loserId, Guid userId, byte score, string description);
 
         FactEditViewModel Get(int factId);
 
@@ -34,11 +34,12 @@ namespace Poltorachka.Services
             _factsQuery = factsQuery;
         }
 
-        public void Create(int winnerId, int loserId, Guid userId, byte score, string description)
+        public void Create(int appId, int winnerId, int loserId, Guid userId, byte score, string description)
         {
             try
             {
-                var fact = new Fact(winnerId, 
+                var fact = new Fact(appId, 
+                    winnerId, 
                     loserId,
                     _individualsQuery.Execute(userId).IndId,
                     score, 

@@ -13,22 +13,19 @@ namespace Poltorachka.Domain
         {
         }
 
-        public Fact(int winnerId, 
-            int loserId,
-            int creatorId,
-            byte score, 
-            string description,
-            Func<int, byte> userRemainingBalanceFunc)
+        public Fact(int appId, int winnerId, int loserId, int creatorId, byte score, string description, Func<int, byte> userRemainingBalanceFunc)
             : this()
         {
             Assert.NotNull(userRemainingBalanceFunc, nameof(userRemainingBalanceFunc));
 
+            Assert.That(appId > 0, "App id must be provided");
             Assert.That(winnerId > 0, "Winner id must be provided");
             Assert.That(loserId > 0, "Loser id must be provided");
             Assert.That(creatorId > 0, "Creator id must be provided");
 
             Assert.That(userRemainingBalanceFunc(loserId) >= score, "Month limit exceeded for this user");
 
+            AppId = appId;
             WinnerId = winnerId;
             LoserId = loserId;
             CreatorId = creatorId;
@@ -46,6 +43,8 @@ namespace Poltorachka.Domain
                 Status = FactStatus.Pending;
             }
         }
+
+        public int AppId { get; internal set; }
 
         public int FactId { get; internal set; }
 

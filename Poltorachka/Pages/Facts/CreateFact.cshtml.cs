@@ -39,7 +39,7 @@ namespace Poltorachka.Pages.Facts
 
             try
             {
-                _factService.Create(Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
+                _factService.Create(1, Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
 
                 return RedirectToPage("/Index");
             }
