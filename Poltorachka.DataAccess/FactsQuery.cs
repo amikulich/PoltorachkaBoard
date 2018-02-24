@@ -28,7 +28,7 @@ namespace Poltorachka.DataAccess
                               ,f.creator_id
                               ,creator.name AS creator_name
                               ,f.approver_id
-                              ,approver.name AS ApproverName
+                              ,approver.name AS approver_name
                               ,f.[status]
                               ,f.[score]
                               ,f.[date]
