@@ -1,6 +1,6 @@
 ﻿namespace Poltorachka.Models
 {
-    public class IndividualModel
+    public class IndividualViewModel
     {
         public int IndId { get; set; }
 

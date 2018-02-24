@@ -9,7 +9,7 @@ namespace Poltorachka.Services
     {
         void Create(int winnerId, int loserId, Guid userId, byte score, string description);
 
-        FactViewModel Get(int factId);
+        FactEditViewModel Get(int factId);
 
         void Update(int factId, Guid userId, FactStatusViewModel status);
     }
@@ -51,11 +51,11 @@ namespace Poltorachka.Services
             }
         }
 
-        public FactViewModel Get(int factId)
+        public FactEditViewModel Get(int factId)
         {
             var fact = _factsQuery.Execute().Single(f => f.FactId == factId);
 
-            return new FactViewModel()
+            return new FactEditViewModel()
             {
                 CreatorId = fact.CreatorId,
                 CreatorName = fact.CreatorName,

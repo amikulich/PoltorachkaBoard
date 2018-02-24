@@ -5,7 +5,7 @@ using Poltorachka.Services;
 
 namespace Poltorachka.Pages.Facts
 {
-    public class CreateFactModel : PageModelBase
+    public class CreateFactModel : PageViewModelBase
     {
         private readonly IFactService _factService;
         private readonly IIndividualsService _individualsService;
@@ -17,13 +17,13 @@ namespace Poltorachka.Pages.Facts
         }
 
         [BindProperty]
-        public CreateFactViewModel Fact { get; set; }
+        public FactCreateViewModel Fact { get; set; }
 
         public SelectList Individuals { get; set; }
 
         public void OnGet()
         {
-            Individuals = new SelectList(_individualsService.Get(), nameof(IndividualModel.IndId), nameof(IndividualModel.Name));
+            Individuals = new SelectList(_individualsService.Get(), nameof(IndividualViewModel.IndId), nameof(IndividualViewModel.Name));
         }
 
         public ActionResult OnPost()
@@ -33,7 +33,7 @@ namespace Poltorachka.Pages.Facts
                 return Page();
             }
 
-            _factService.Create(Fact.WinnerIndId, Fact.LoserIndId, UserId, Fact.Score, Fact.Description);
+            _factService.Create(Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
 
             return RedirectToPage("/Index");
         }

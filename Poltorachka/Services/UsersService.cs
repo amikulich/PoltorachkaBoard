@@ -7,7 +7,7 @@ namespace Poltorachka.Services
 {
     public interface IIndividualsService
     {
-        ICollection<IndividualModel> Get();
+        ICollection<IndividualViewModel> Get();
     }
 
     public class UsersService : IIndividualsService
@@ -19,10 +19,10 @@ namespace Poltorachka.Services
             _individualsQuery = individualsQuery;
         }
 
-        public ICollection<IndividualModel> Get()
+        public ICollection<IndividualViewModel> Get()
         {
             return _individualsQuery.Execute()
-                .Select(i => new IndividualModel { IndId = i.IndId, Name = i.Name })
+                .Select(i => new IndividualViewModel { IndId = i.IndId, Name = i.Name })
                 .ToList();
         }
     }

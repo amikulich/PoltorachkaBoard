@@ -2,9 +2,9 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Poltorachka.Models
+namespace Poltorachka
 {
-    public class PageModelBase : PageModel
+    public class PageViewModelBase : PageModel
     {
         protected Guid UserId
         {

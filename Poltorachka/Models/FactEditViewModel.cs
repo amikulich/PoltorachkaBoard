@@ -2,7 +2,7 @@
 
 namespace Poltorachka.Models
 {
-    public class FactViewModel
+    public class FactEditViewModel
     {
         public int FactId { get; set; }
 

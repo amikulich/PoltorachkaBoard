@@ -2,13 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Poltorachka.Models
 {
-    public class CreateFactViewModel
+    public class FactCreateViewModel
     {
         [Required(ErrorMessage = "Select a name")]
-        public int WinnerIndId { get; set; }
+        public int WinnerId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Select a name")]
-        public int LoserIndId { get; set; }
+        public int LoserId { get; set; }
 
         [Required(ErrorMessage = "Score must be between 1 to 4")]
         [Range(1, 4)]

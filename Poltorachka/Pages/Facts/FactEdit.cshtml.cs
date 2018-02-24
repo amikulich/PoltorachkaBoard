@@ -5,7 +5,7 @@ using Poltorachka.Services;
 
 namespace Poltorachka.Pages.Facts
 {
-    public class FactEditModel : PageModelBase
+    public class FactEditModel : PageViewModelBase
     {
         private readonly IFactService _factService;
         private readonly IIndividualsQuery _individualsQuery;
@@ -25,7 +25,7 @@ namespace Poltorachka.Pages.Facts
         public string DeclineClarification { get; private set; }
 
         [BindProperty]
-        public FactViewModel Fact { get; set; }
+        public FactEditViewModel Fact { get; set; }
 
         public void OnGet(int id)
         {
