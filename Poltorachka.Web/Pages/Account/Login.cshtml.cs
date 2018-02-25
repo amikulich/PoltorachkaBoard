@@ -12,11 +12,15 @@ namespace Poltorachka.Web.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly IPagesRedirectHelper _pagesRedirectHelper;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(IPagesRedirectHelper pagesRedirectHelper,
+            SignInManager<ApplicationUser> signInManager, 
+            ILogger<LoginModel> logger)
         {
+            _pagesRedirectHelper = pagesRedirectHelper;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -71,7 +75,7 @@ namespace Poltorachka.Web.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToPage("/Index");
+                    return _pagesRedirectHelper.RedirectToDefault();
                 }
                 else
                 {

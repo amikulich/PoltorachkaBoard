@@ -9,6 +9,7 @@ using Poltorachka.DataAccess.Facts;
 using Poltorachka.DataAccess.Individuals;
 using Poltorachka.Domain.Facts;
 using Poltorachka.Domain.Individuals;
+using Poltorachka.Web.Authorization;
 using Poltorachka.Web.Data;
 using Poltorachka.Web.Services;
 
@@ -45,10 +46,18 @@ namespace Poltorachka.Web
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeFolder("/Facts", "AdminAccess");
+                    options.Conventions.AuthorizeFolder("/Profile");
                     options.Conventions.AuthorizeFolder("/DevClub", "DevClub");
+
+                    options.Conventions.AddPageRoute("/Profile/ProfileEdit", "Profile/{userName}");
+                    options.Conventions.AddPageRoute("/Facts/FactEdit", "Facts/{id}");
+                    options.Conventions.AddPageRoute("/Facts/CreateFact", "Facts/New");
                 });
 
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IPagesRedirectHelper, PagesRedirectHelper>();
+
+            services.AddScoped<IFactAccessService, FactAccessService>();
             services.AddScoped<IFactAppService, FactAppService>();
             services.AddScoped<IIndividualsAppService, IndividualsAppService>();
             services.AddScoped<IDashboardAppService, DashboardAppService>();

@@ -10,14 +10,17 @@ namespace Poltorachka.Web.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IPagesRedirectHelper _redirectHelper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
         public RegisterModel(
+            IPagesRedirectHelper redirectHelper,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger)
         {
+            _redirectHelper = redirectHelper;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
@@ -57,7 +60,7 @@ namespace Poltorachka.Web.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToPage("/Index");
+                    return _redirectHelper.RedirectToDefault();
                 }
                 foreach (var error in result.Errors)
                 {

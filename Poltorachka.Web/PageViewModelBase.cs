@@ -14,5 +14,15 @@ namespace Poltorachka.Web
                 return !string.IsNullOrEmpty(id) ? Guid.Parse(id) : Guid.Empty;
             }
         }
+
+        protected string UserName
+        {
+            get
+            {
+                var userName = User?.Claims.SingleOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
+                return !string.IsNullOrEmpty(userName) ? userName : string.Empty;
+            }
+        }
+
     }
 }

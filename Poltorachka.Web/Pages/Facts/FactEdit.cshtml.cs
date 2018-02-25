@@ -7,11 +7,15 @@ namespace Poltorachka.Web.Pages.Facts
 {
     public class FactEditModel : PageViewModelBase
     {
+        private readonly IPagesRedirectHelper _redirectHelper;
         private readonly IFactAppService _factService;
         private readonly IIndividualsQuery _individualsQuery;
 
-        public FactEditModel(IFactAppService factService, IIndividualsQuery individualsQuery)
+        public FactEditModel(IPagesRedirectHelper redirectHelper,
+            IFactAppService factService, 
+            IIndividualsQuery individualsQuery)
         {
+            _redirectHelper = redirectHelper;
             _factService = factService;
             _individualsQuery = individualsQuery;
         }
@@ -27,13 +31,13 @@ namespace Poltorachka.Web.Pages.Facts
         [BindProperty]
         public FactEditViewModel Fact { get; set; }
 
-        public void OnGet(int id)
+        public ActionResult OnGet(int id)
         {
             Fact = _factService.Get(id);
 
             if (Fact.Status != FactStatusViewModel.Pending)
             {
-                RedirectToPage("Index");
+                _redirectHelper.RedirectToDefault(UserId);
             }
 
             var indId = _individualsQuery.Execute(UserId).IndId;
@@ -44,20 +48,22 @@ namespace Poltorachka.Web.Pages.Facts
 
             ApproveClarification = ApproveAllowed ? string.Empty : "Find another person to approve";
             DeclineClarification = DeclineAllowed ? string.Empty : "Find another person to decline";
+
+            return Page();
         }
 
-        public ActionResult OnPostApprove(int id)
+        public IActionResult OnPostApprove(int id)
         {
             _factService.Update(id, UserId, FactStatusViewModel.Approved);
 
-            return RedirectToPage("/Index");
+            return _redirectHelper.RedirectToDefault(UserId);
         }
 
-        public ActionResult OnPostDecline(int id)
+        public IActionResult OnPostDecline(int id)
         {
             _factService.Update(id, UserId, FactStatusViewModel.Canceled);
 
-            return RedirectToPage("/Index");
+            return _redirectHelper.RedirectToDefault(UserId);
         }
     }
 }
