@@ -33,3 +33,20 @@ body {
         display: none;
     }
 }
+
+.number {
+    display: block;
+    color: #0C0D0E;
+    font-weight: 700;
+    font-size: 17px
+}
+
+.card {
+    background-color: #fafafb;
+    border: 1px solid #e4e6e8;
+    margin: 0 8px;
+}
+
+.container-margined {
+    margin: 8px 0;
+}
