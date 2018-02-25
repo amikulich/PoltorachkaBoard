@@ -51,7 +51,7 @@ namespace Poltorachka.Web
                     options.Conventions.AuthorizeFolder("/Profile");
                     options.Conventions.AuthorizeFolder("/DevClub", "DevClub");
 
-                    options.Conventions.AddPageRoute("/Profile/ProfileEdit", "Profile/{userName}");
+                    options.Conventions.AddPageRoute("/Profile/ProfileEdit", "Profile/{userName?}");
                     options.Conventions.AddPageRoute("/Facts/FactEdit", "Facts/{factId}");
                     options.Conventions.AddPageRoute("/Facts/CreateFact", "Facts/New");
                 })

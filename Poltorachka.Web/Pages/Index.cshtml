@@ -8,32 +8,32 @@
 
 @model Poltorachka.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Полторачка";
 }
 
 <table class="table">
     <thead>
     <tr>
         <th>
-            When
+            Когда
         </th>
         <th>
-            From
+            Кто
         </th>
         <th>
-            To
+            Кому
         </th>
         <th>
-            Creator
+            Оформил
         </th>
         <th>
-            Approver
+            Свидетельствовал
         </th>
         <th>
-            Amount
+            Сколько
         </th>
         <th>
-            Status
+            Статус
         </th>
     </tr>
     </thead>
@@ -86,6 +86,6 @@
 @if (User.IsInRole(Roles.CreateAndEditFacts))
 {
     <div>
-        <a asp-page="./Facts/CreateFact" class="btn btn-primary">Register</a>
+        <a asp-page="./Facts/CreateFact" class="btn btn-primary">Создать предъяву</a>
     </div>
 }

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,13 +38,15 @@ namespace Poltorachka.Web.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name = "Имя")]
             public string UserName { get; set; }
 
             [Required]
+            [Display(Name = "Пароль")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Запомнить?")]
             public bool RememberMe { get; set; }
         }
 

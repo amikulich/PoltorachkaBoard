@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,12 +34,12 @@ namespace Poltorachka.Web.Pages.Account
         public class InputModel
         {
             [Required]
-            [Display(Name = "UserName")]
+            [Display(Name = "Имя")]
             public string UserName { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Пароль")]
             public string Password { get; set; }
         }
 

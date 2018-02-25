@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Poltorachka.Domain.Individuals;
 using Poltorachka.Web.Authorization;
 using Poltorachka.Web.Models;
@@ -58,16 +58,16 @@ namespace Poltorachka.Web.Pages.Facts
             return Page();
         }
 
-        public IActionResult OnPostApprove(int id)
+        public IActionResult OnPostApprove(int factId)
         {
-            _factService.Update(id, UserId, FactStatusViewModel.Approved);
+            _factService.Update(factId, UserId, FactStatusViewModel.Approved);
 
             return _redirectHelper.RedirectToDefault(UserId);
         }
 
-        public IActionResult OnPostDecline(int id)
+        public IActionResult OnPostDecline(int factId)
         {
-            _factService.Update(id, UserId, FactStatusViewModel.Canceled);
+            _factService.Update(factId, UserId, FactStatusViewModel.Canceled);
 
             return _redirectHelper.RedirectToDefault(UserId);
         }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Poltorachka.Web.Services;
 
 namespace Poltorachka.Web.Pages.Profile
@@ -14,6 +14,8 @@ namespace Poltorachka.Web.Pages.Profile
 
         public IActionResult OnGet(string userName)
         {
+            ViewData["Title"] = @"Профиль";
+
             if (!string.Equals(UserName, userName))
             {
                 return RedirectToPage("/Profile/ProfileEdit", new {userName = UserName});
