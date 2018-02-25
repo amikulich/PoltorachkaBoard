@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Poltorachka.DataAccess;
 using Poltorachka.DataAccess.Facts;
+using Poltorachka.DataAccess.FactsSummary;
 using Poltorachka.DataAccess.Individuals;
 using Poltorachka.Domain.Facts;
 using Poltorachka.Domain.Individuals;
@@ -63,6 +64,8 @@ namespace Poltorachka.Web
             services.AddSingleton<IPagesRedirectHelper, PagesRedirectHelper>();
 
             services.AddScoped<IFactAccessService, FactAccessService>();
+
+            services.AddScoped<IProfileStatsAppService, ProfileStatsAppService>();
             services.AddScoped<IFactAppService, FactAppService>();
             services.AddScoped<IIndividualsAppService, IndividualsAppService>();
             services.AddScoped<IDashboardAppService, DashboardAppService>();

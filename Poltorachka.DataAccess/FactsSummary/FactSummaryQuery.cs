@@ -3,10 +3,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using Poltorachka.Domain;
 using Poltorachka.Domain.Facts;
 
-namespace Poltorachka.DataAccess
+namespace Poltorachka.DataAccess.FactsSummary
 {
     public class FactSummaryQuery : IFactSummaryQuery
     {
@@ -17,6 +16,7 @@ namespace Poltorachka.DataAccess
              SELECT winner_id, SUM(score) 
              FROM fact f
              WHERE f.status = 2 /*Approved*/
+                AND f.date BETWEEN @startDate AND @endDate
              GROUP BY winner_id
           )
           ,losers (ind_id, score)
@@ -25,12 +25,21 @@ namespace Poltorachka.DataAccess
              SELECT loser_id, SUM(score) 
              FROM fact f
              WHERE f.status = 2 /*Approved*/
-             GROUP BY loser_id  
+                AND f.date BETWEEN @startDate AND @endDate
+             GROUP BY loser_id 
           )
-          SELECT COALESCE(w.ind_id, l.ind_id) AS IndividualId
-            ,COALESCE(w.score, 0) - COALESCE(l.score, 0) AS Score
-          FROM winners w
-          FULL OUTER JOIN losers l ON l.ind_id = w.ind_id
+          ,results (ind_id, score)
+          AS
+          (
+            SELECT COALESCE(w.ind_id, l.ind_id) AS ind_id
+                ,COALESCE(w.score, 0) - COALESCE(l.score, 0) AS score
+            FROM winners w
+            FULL OUTER JOIN losers l ON l.ind_id = w.ind_id
+          )
+          SELECT ind_id AS IndividualId
+                    ,score AS Score
+                    ,ROW_NUMBER() OVER (ORDER BY score DESC) AS Position
+          FROM results
         ";
 
         private readonly IConfiguration configuration;
@@ -40,13 +49,13 @@ namespace Poltorachka.DataAccess
             this.configuration = configuration;
         }
 
-        public FactSummary Execute()
+        public FactSummary Execute(DateTime startDate, DateTime endDate)
         {
             using (var conn = new SqlConnection(configuration.GetConnectionString("MainDb")))
             {
                 conn.Open();
 
-                var userScores = conn.Query<UserSummaryMap>(Sql);
+                var userScores = conn.Query<UserSummaryMap>(Sql, new { startDate, endDate});
 
                 var names = conn.Query("SELECT * FROM [dbo].[individual]")
                     .Select(u => new IndividualMap()
@@ -57,11 +66,18 @@ namespace Poltorachka.DataAccess
 
                 var userSummaries = userScores
                     .Select(u =>
-                        new UserSummary(names.Single(n => n.IndividualId == u.IndividualId).IndividualName, u.Score))
+                        new UserSummary(names.Single(n => n.IndividualId == u.IndividualId).IndividualName, u.Score, u.Position))
                     .ToList();
 
-                return new FactSummary(userSummaries, DateTime.MinValue, DateTime.MaxValue);
+                return new FactSummary(userSummaries, startDate, endDate);
             }
+        }
+
+        public FactSummary Execute()
+        {
+            var startDate = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var endDate = new DateTime(9999, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return Execute(startDate, endDate);
         }
 
         private class UserSummaryMap
@@ -69,6 +85,8 @@ namespace Poltorachka.DataAccess
             public int IndividualId { get; set; }
 
             public int Score { get; set; }
+
+            public int Position { get; set; }
         }
 
         private class IndividualMap
