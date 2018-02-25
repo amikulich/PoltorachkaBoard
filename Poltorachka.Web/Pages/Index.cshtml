@@ -72,7 +72,7 @@
             <td>
                 @if (User.IsInRole(Roles.CreateAndEditFacts) && fact.Status == FactStatusViewModel.Pending)
                 {
-                    <a asp-page="./Facts/FactEdit" asp-route-id="@fact.FactId">@fact.Status.ToString()</a>
+                    <a asp-page="./Facts/FactEdit" asp-route-factId="@fact.FactId">@fact.Status.ToString()</a>
                 }
                 else
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Poltorachka.Web.Filters;
 
 namespace Poltorachka.Web
 {

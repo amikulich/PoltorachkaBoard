@@ -11,6 +11,7 @@ using Poltorachka.Domain.Facts;
 using Poltorachka.Domain.Individuals;
 using Poltorachka.Web.Authorization;
 using Poltorachka.Web.Data;
+using Poltorachka.Web.Filters;
 using Poltorachka.Web.Services;
 
 namespace Poltorachka.Web
@@ -50,8 +51,12 @@ namespace Poltorachka.Web
                     options.Conventions.AuthorizeFolder("/DevClub", "DevClub");
 
                     options.Conventions.AddPageRoute("/Profile/ProfileEdit", "Profile/{userName}");
-                    options.Conventions.AddPageRoute("/Facts/FactEdit", "Facts/{id}");
+                    options.Conventions.AddPageRoute("/Facts/FactEdit", "Facts/{factId}");
                     options.Conventions.AddPageRoute("/Facts/CreateFact", "Facts/New");
+                })
+                .AddMvcOptions(options =>
+                {
+                    options.Filters.Add(typeof(PageExceptionFilterAttribute));
                 });
 
             services.AddSingleton<IConfiguration>(Configuration);

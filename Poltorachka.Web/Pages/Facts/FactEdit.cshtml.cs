@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Poltorachka.Domain.Individuals;
+using Poltorachka.Web.Authorization;
 using Poltorachka.Web.Models;
 using Poltorachka.Web.Services;
 
@@ -8,14 +9,17 @@ namespace Poltorachka.Web.Pages.Facts
     public class FactEditModel : PageViewModelBase
     {
         private readonly IPagesRedirectHelper _redirectHelper;
+        private readonly IFactAccessService _factAccessService;
         private readonly IFactAppService _factService;
         private readonly IIndividualsQuery _individualsQuery;
 
         public FactEditModel(IPagesRedirectHelper redirectHelper,
+            IFactAccessService factAccessService,
             IFactAppService factService, 
             IIndividualsQuery individualsQuery)
         {
             _redirectHelper = redirectHelper;
+            _factAccessService = factAccessService;
             _factService = factService;
             _individualsQuery = individualsQuery;
         }
@@ -31,9 +35,11 @@ namespace Poltorachka.Web.Pages.Facts
         [BindProperty]
         public FactEditViewModel Fact { get; set; }
 
-        public ActionResult OnGet(int id)
+        public ActionResult OnGet(int factId)
         {
-            Fact = _factService.Get(id);
+            _factAccessService.ValidateFactExists(factId, UserId);
+
+            Fact = _factService.Get(factId);
 
             if (Fact.Status != FactStatusViewModel.Pending)
             {
