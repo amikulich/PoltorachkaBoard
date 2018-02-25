@@ -20,7 +20,7 @@
         @foreach (var user in Model.Summary.Users.OrderByDescending(u => u.Score))
         {
             <tr>
-                <td>@user.UserName</td>
+                <td>@user.IndividualName</td>
                 <td>@user.Score</td>
             </tr>
         }

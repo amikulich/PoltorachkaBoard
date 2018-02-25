@@ -23,14 +23,17 @@ namespace Poltorachka.Domain.Facts
 
     public class UserSummary
     {
-        public UserSummary(string userName, int score)
+        public UserSummary(string individualName, int score, int position)
         {
-            UserName = userName;
+            IndividualName = individualName;
             Score = score;
+            Position = position;
         }
 
-        public string UserName { get; private set; }
+        public string IndividualName { get; private set; }
 
         public int Score { get; private set; }
+
+        public int Position { get; private set; }
     }
 }

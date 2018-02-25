@@ -1,20 +1,36 @@
 ﻿@page "{userName}"
+@using Web.Pages.Profile
 @model Web.Pages.Profile.ProfileEditModel
 
-<div class="col-left col-8">
-    <div class="user-stats">
+<div class="container container-margined">
+    <div class="card col-sm-5">
+        <h2>Месяц</h2>
         <div class="row">
-            <div class="col-3">
-                <span class="text-muted">score</span>
-                5
+            <div class="col-sm-3">
+                <span class="number">@Model.MonthlyScore</span>
+                баланс
             </div>
-            <div class="col-3">
-                <span class="text-muted">votes left</span>
-                2
+            <div class="col-sm-3">
+                <span class="number">@Model.MonthlyDonatesLeft</span>
+                общак
             </div>
-            <div class="col-3">
-                <span class="text-muted">people reached</span>
-                1
+            <div class="col-sm-5">
+                <span class="number">@Model.MonthlyPeopleReached</span>
+                новые друганы
             </div>
         </div>
+    </div>
+    <div class="card col-sm-5">
+        <h2>За все время</h2>
+        <div class="row">
+            <div class="col-sm-3">
+                <span class="number">@Model.OverallScore</span>
+                баланс
+            </div>
+            <div class="col-sm-3">
+                <span class="number">@Model.OverallPlace</span>
+                место
+            </div>
+        </div>
+    </div>
 </div>
