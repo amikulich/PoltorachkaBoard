@@ -42,7 +42,7 @@ namespace Poltorachka.DataAccess.Individuals
 
                 return conn.Query(Sql + " WHERE [user_id] = @userId", new { userId })
                     .Select(i => new Individual(i.ind_id, i.name))
-                    .Single();
+                    .SingleOrDefault();
             }
         }
     }

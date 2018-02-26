@@ -33,6 +33,11 @@ namespace Poltorachka.Web.Services
 
             var user = _individualsQuery.Execute(userId);
 
+            if (user == null)
+            {
+                return new ProfileStatsDto(0, 4, 0, 0, overallStats.Users.Count + 1);
+            }
+
             var monthlyUserStats = monthlyStats.Users.SingleOrDefault(u => u.IndividualName == user.Name);
             monthlyUserStats = monthlyUserStats ?? new UserSummary(user.Name, 0, monthlyStats.Users.Count + 1);
 
