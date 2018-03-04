@@ -86,6 +86,7 @@
 @if (User.IsInRole(Roles.CreateAndEditFacts))
 {
     <div>
-        <a asp-page="./Facts/CreateFact" class="btn btn-primary">Создать предъяву</a>
+        <a asp-page="./Facts/CreateFact" asp-route-type="Charge" class="btn btn-primary">Создать предъяву</a>
+        <a asp-page="./Facts/CreateFact" asp-route-type="Donate" class="btn btn-success">Отблагодарить</a>
     </div>
 }
