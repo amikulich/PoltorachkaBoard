@@ -4,6 +4,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Poltorachka.Domain.Individuals;
 using Poltorachka.Web.Models;
 using Poltorachka.Web.Services;
 
@@ -15,18 +16,24 @@ namespace Poltorachka.Web.Pages.Facts
 
         private readonly IFactAppService _factService;
         private readonly IIndividualsAppService _individualsService;
+        private readonly IIndividualsQuery _individualsQuery;
 
-        public CreateFactModel(IPagesRedirectHelper pagesRedirectHelper, IFactAppService factService, IIndividualsAppService individualsService)
+        public CreateFactModel(IPagesRedirectHelper pagesRedirectHelper, IFactAppService factService, IIndividualsAppService individualsService, IIndividualsQuery individualsQuery)
         {
             _pagesRedirectHelper = pagesRedirectHelper;
             _factService = factService;
             _individualsService = individualsService;
+            _individualsQuery = individualsQuery;
         }
 
         [BindProperty]
         public FactModel Fact { get; set; }
 
         public FactType Type { get; private set; }
+
+        public int IndId { get; private set; }
+
+        public string IndName { get; private set; }
 
         public string GenericErrorMessage { get; private set; }
 
@@ -39,8 +46,12 @@ namespace Poltorachka.Web.Pages.Facts
                 return _pagesRedirectHelper.RedirectToDefault(UserId);
             }
 
-            Individuals = new SelectList(_individualsService.Get(), nameof(IndividualViewModel.IndId), nameof(IndividualViewModel.Name));
             Type = type;
+            Individuals = new SelectList(_individualsService.Get(), nameof(IndividualViewModel.IndId), nameof(IndividualViewModel.Name));
+
+            var currentUser = _individualsQuery.Execute(UserId);
+            IndId = currentUser.IndId;
+            IndName = currentUser.Name;
 
             return Page();
         }
@@ -49,7 +60,7 @@ namespace Poltorachka.Web.Pages.Facts
         {
             if (!ModelState.IsValid)
             {
-                return OnGet(Type);
+                return OnGet(Fact.Type);
             }
 
             try
@@ -64,7 +75,7 @@ namespace Poltorachka.Web.Pages.Facts
                 {
                     GenericErrorMessage = exception.Message;
 
-                    return OnGet(Type);
+                    return OnGet(Fact.Type);
                 }
 
                 throw;
@@ -79,6 +90,11 @@ namespace Poltorachka.Web.Pages.Facts
 
         public class FactModel
         {
+            public FactModel()
+            {
+                
+            }
+
             [Range(1, int.MaxValue, ErrorMessage = "Нужно выбрать")]
             public int WinnerId { get; set; }
 
@@ -90,6 +106,8 @@ namespace Poltorachka.Web.Pages.Facts
 
             [MaxLength(255, ErrorMessage = "Давай-ка до 255 буков")]
             public string Description { get; set; }
+
+            public FactType Type { get; set; }
         }
     }
 }
