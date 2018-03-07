@@ -2,8 +2,8 @@
 {
     public interface IFactAggregateRepository
     {
-        void Save(Fact fact);
+        void Save(FactBase fact);
 
-        Fact Get(int factId);
+        IFact Get(int factId);
     }
 }

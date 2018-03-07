@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Poltorachka.Domain.Primitives;
-
-[assembly:InternalsVisibleTo("Poltorachka.DataAccess")]
 
 namespace Poltorachka.Domain.Facts
 {
-    public class Fact : FactBase, IFact
+    public class Charge : FactBase, IFact
     {
-        internal Fact()
+        internal Charge()
         {
         }
 
-        public Fact(int appId, int winnerId, int loserId, int creatorId, byte score, string description, Func<int, byte> userRemainingBalanceFunc)
+        public Charge(int appId, int winnerId, int loserId, int creatorId, byte score, string description, Func<int, byte> userRemainingBalanceFunc)
             : this()
         {
-            Assert.NotNull(userRemainingBalanceFunc, nameof(userRemainingBalanceFunc));
-
             Assert.That(appId > 0, "App id must be provided");
             Assert.That(winnerId > 0, "Winner id must be provided");
             Assert.That(loserId > 0, "Loser id must be provided");
             Assert.That(creatorId > 0, "Creator id must be provided");
+            Assert.That(score > 0, "Score should be a postive number");
 
-            Assert.That(userRemainingBalanceFunc(loserId) >= score, "Month limit exceeded for this user");
+            Type = FactType.Charge;
 
             AppId = appId;
             WinnerId = winnerId;

@@ -3,7 +3,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using Poltorachka.Domain;
 using Poltorachka.Domain.Facts;
 
 namespace Poltorachka.DataAccess.Facts
@@ -17,7 +16,7 @@ namespace Poltorachka.DataAccess.Facts
             _configuration = configuration;
         }
 
-        public void Save(Fact fact)
+        public void Save(FactBase fact)
         {
             using (var conn = new SqlConnection(_configuration.GetConnectionString("MainDb")))
             {
@@ -63,7 +62,7 @@ namespace Poltorachka.DataAccess.Facts
             }
         }
 
-        public Fact Get(int factId)
+        public IFact Get(int factId)
         {
             using (var conn = new SqlConnection(_configuration.GetConnectionString("MainDb")))
             {
@@ -82,7 +81,7 @@ namespace Poltorachka.DataAccess.Facts
                                 [description] 
                         FROM [dbo].[Fact]
                         WHERE fact_id = {factId}")
-                    .Select(f => new Fact
+                    .Select(f => new Charge
                     {
                         FactId = f.fact_id,
                         AppId = f.app_id,

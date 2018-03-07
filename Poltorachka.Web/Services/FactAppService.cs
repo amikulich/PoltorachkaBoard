@@ -4,12 +4,13 @@ using Poltorachka.Domain;
 using Poltorachka.Domain.Facts;
 using Poltorachka.Domain.Individuals;
 using Poltorachka.Web.Models;
+using Poltorachka.Web.Pages.Facts;
 
 namespace Poltorachka.Web.Services
 {
     public interface IFactAppService
     {
-        void Create(int appId, int winnerId, int loserId, Guid userId, byte score, string description);
+        void Create(int appId, FactTypeModelEnum factType, int winnerId, int loserId, Guid userId, byte score, string description);
 
         FactEditViewModel Get(int factId);
 
@@ -34,11 +35,11 @@ namespace Poltorachka.Web.Services
             _factsQuery = factsQuery;
         }
 
-        public void Create(int appId, int winnerId, int loserId, Guid userId, byte score, string description)
+        public void Create(int appId, FactTypeModelEnum factType, int winnerId, int loserId, Guid userId, byte score, string description)
         {
             try
             {
-                var fact = new Fact(appId, 
+                var fact = new Charge(appId, 
                     winnerId, 
                     loserId,
                     _individualsQuery.Execute(userId).IndId,

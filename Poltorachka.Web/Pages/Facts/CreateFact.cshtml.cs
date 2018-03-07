@@ -29,7 +29,7 @@ namespace Poltorachka.Web.Pages.Facts
         [BindProperty]
         public FactModel Fact { get; set; }
 
-        public FactType Type { get; private set; }
+        public FactTypeModelEnum Type { get; private set; }
 
         public int IndId { get; private set; }
 
@@ -39,9 +39,9 @@ namespace Poltorachka.Web.Pages.Facts
 
         public SelectList Individuals { get; set; }
 
-        public IActionResult OnGet(FactType type)
+        public IActionResult OnGet(FactTypeModelEnum type)
         {
-            if (!Enum.IsDefined(typeof(FactType), type))
+            if (!Enum.IsDefined(typeof(FactTypeModelEnum), type))
             {
                 return _pagesRedirectHelper.RedirectToDefault(UserId);
             }
@@ -65,7 +65,7 @@ namespace Poltorachka.Web.Pages.Facts
 
             try
             {
-                _factService.Create(1, Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
+                _factService.Create(1, Fact.Type, Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
 
                 return _pagesRedirectHelper.RedirectToDefault(UserId);
             }
@@ -82,19 +82,8 @@ namespace Poltorachka.Web.Pages.Facts
             }
         }
 
-        public enum FactType
-        {
-            Charge = 1,
-            Donate = 2,
-        }
-
         public class FactModel
         {
-            public FactModel()
-            {
-                
-            }
-
             [Range(1, int.MaxValue, ErrorMessage = "Нужно выбрать")]
             public int WinnerId { get; set; }
 
@@ -107,7 +96,7 @@ namespace Poltorachka.Web.Pages.Facts
             [MaxLength(255, ErrorMessage = "Давай-ка до 255 буков")]
             public string Description { get; set; }
 
-            public FactType Type { get; set; }
+            public FactTypeModelEnum Type { get; set; }
         }
     }
 }
