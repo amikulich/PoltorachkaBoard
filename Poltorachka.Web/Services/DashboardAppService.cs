@@ -2,6 +2,7 @@
 using System.Linq;
 using Poltorachka.Domain.Facts;
 using Poltorachka.Web.Models;
+using Poltorachka.Web.Pages.Facts;
 
 namespace Poltorachka.Web.Services
 {
@@ -32,6 +33,7 @@ namespace Poltorachka.Web.Services
                 Description = f.Description,
                 FactId = f.FactId,
                 Date = f.Date,
+                Type = (FactTypeModelEnum)f.Type,
                 Score = f.Score,
                 Status = (FactStatusViewModel) f.Status
             }).ToList();

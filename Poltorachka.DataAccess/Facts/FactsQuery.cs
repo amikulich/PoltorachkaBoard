@@ -31,6 +31,7 @@ namespace Poltorachka.DataAccess.Facts
                               ,approver.name AS approver_name
                               ,f.[status]
                               ,f.[score]
+                              ,f.fact_type_id
                               ,f.[date]
                               ,f.[description]
                         FROM [dbo].[fact] f
@@ -72,7 +73,8 @@ namespace Poltorachka.DataAccess.Facts
 
                 var facts = conn.Query(Sql)
                     .Select(f => new FactReadModel()
-                    { FactId = f.fact_id,
+                    {
+                        FactId = f.fact_id,
                         WinnerId = f.winner_id,
                         WinnerName = f.winner_name,
                         LoserId = f.loser_id,
@@ -82,9 +84,11 @@ namespace Poltorachka.DataAccess.Facts
                         WitnessId = f.approver_id,
                         WitnessName = f.approver_name,
                         Score = (byte)f.score,
+                        Type = (FactType)f.fact_type_id,
                         Description = f.description,
                         Date = f.date,
-                        Status = (FactStatus)f.status}).ToList();
+                        Status = (FactStatus)f.status
+                    }).ToList();
 
                 facts.ForEach(fact => DateTime.SpecifyKind(fact.Date, DateTimeKind.Utc));
 

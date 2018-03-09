@@ -4,6 +4,7 @@
 @using Poltorachka.Web
 @using Poltorachka.Web.Models
 @using Poltorachka.Web.Pages
+@using Poltorachka.Web.Pages.Facts
 @inject UserManager<ApplicationUser> UserManager
 
 @model Poltorachka.Web.Pages.IndexModel
@@ -52,9 +53,12 @@
             <td>@fact.CreatorName</td>
             <td>@fact.WitnessName</td>
             <td>
-                @for (int i = 0; i < @fact.Score; i++)
-                {
-                    <img style="height: 100%" src="~/images/beer_ico.png" />
+                @{
+                    var imgLink = fact.Type == FactTypeModelEnum.Charge ? "/images/beer_ico.png" : "/images/respect_ico.png";
+                    for (int i = 0; i < @fact.Score; i++)
+                    {
+                        <img style="height: 100%" src="@imgLink" />
+                    }
                 }
             </td>
             <td>

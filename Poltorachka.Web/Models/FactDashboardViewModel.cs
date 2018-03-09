@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Poltorachka.Web.Pages.Facts;
+
 namespace Poltorachka.Web.Models
 {
     public class FactDashboardViewModel
@@ -21,6 +23,7 @@ namespace Poltorachka.Web.Models
         public DateTime Date { get; set; }
 
         public FactStatusViewModel Status { get; set; }
-    }
 
+        public FactTypeModelEnum Type { get; set; }
+    }
 }
