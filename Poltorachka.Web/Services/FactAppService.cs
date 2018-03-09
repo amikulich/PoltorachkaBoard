@@ -39,13 +39,29 @@ namespace Poltorachka.Web.Services
         {
             try
             {
-                var fact = new Charge(appId, 
-                    winnerId, 
-                    loserId,
-                    _individualsQuery.Execute(userId).IndId,
-                    score, 
-                    description,
-                    _userRemainingBalanceQuery.Execute);
+                FactBase fact = null;
+
+                switch (factType)
+                {
+                    case FactTypeModelEnum.Charge:
+                        fact = new Charge(appId,
+                                          winnerId,
+                                          loserId,
+                                          _individualsQuery.Execute(userId).IndId,
+                                          score,
+                                          description);
+                        break;
+                    case FactTypeModelEnum.Donate:
+                        fact = new Donate(appId,
+                                            winnerId,
+                                            loserId,
+                                            score,
+                                            description,
+                                            _userRemainingBalanceQuery.Execute);
+                        break;
+                    default:
+                        throw new NotSupportedException($"{factType} is not supported");
+                }
 
                 _factAggregateRepository.Save(fact);
             }

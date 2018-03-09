@@ -4,6 +4,6 @@
     {
         void Save(FactBase fact);
 
-        IFact Get(int factId);
+        FactBase Get(int factId);
     }
 }

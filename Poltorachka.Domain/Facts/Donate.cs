@@ -2,7 +2,7 @@
 
 namespace Poltorachka.Domain.Facts
 {
-    public class Donate : FactBase, IFact
+    public class Donate : FactBase
     {
         internal Donate()
         {
@@ -36,7 +36,7 @@ namespace Poltorachka.Domain.Facts
             Assert.That(userRemainingBalanceFunc(grantorId) >= score, "Month limit exceeded for this user");
         }
 
-        public void Approve(int witnessId)
+        public override void Approve(int witnessId)
         {
             Assert.That(witnessId != WinnerId, "A winner cannot approve a fact");
             Assert.That(witnessId != LoserId, "A creator cannot approve a fact");
@@ -46,7 +46,7 @@ namespace Poltorachka.Domain.Facts
             ApproverId = witnessId;
         }
 
-        public void Decline(int witnessId)
+        public override void Decline(int witnessId)
         {
             Assert.That(witnessId != LoserId, "Loser cannot decline the fact");
             Assert.That(Status == FactStatus.Pending, "A fact should be in the Pending status");

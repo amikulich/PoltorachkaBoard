@@ -29,12 +29,9 @@ namespace Poltorachka.Domain.Facts
         internal FactType Type { get; set; }
 
         internal DateTime Date { get; set; }
-    }
 
-    public interface IFact
-    {
-        void Approve(int witnessId);
+        public abstract void Approve(int witnessId);
 
-        void Decline(int witnessId);
+        public abstract void Decline(int witnessId);
     }
 }

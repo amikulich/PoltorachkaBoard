@@ -48,26 +48,14 @@
                 }
             </td>
             <td>@fact.LoserName</td>
-            <td>@fact.WinnerName
-                @switch (fact.Score)
-                {
-                    case byte score when (score == 2):
-                        <span class="label label-success">2x combo</span>
-                        break;
-                    case byte score when (score == 3):
-                        <span class="label label-success">3x combo</span>
-                        break;
-                    case byte score when (score >= 4 && score <= 5):
-                        <span class="label label-warning">headshot</span>
-                        break;
-                    case byte score when (score >= 5):
-                        <span class="label label-danger">unstoppable</span>
-                        break;
-                }
-            </td>
+            <td>@fact.WinnerName</td>
             <td>@fact.CreatorName</td>
             <td>@fact.WitnessName</td>
-            <td>@fact.Score
+            <td>
+                @for (int i = 0; i < @fact.Score; i++)
+                {
+                    <img style="height: 100%" src="~/images/beer_ico.png" />
+                }
             </td>
             <td>
                 @if (User.IsInRole(Roles.CreateAndEditFacts) && fact.Status == FactStatusViewModel.Pending)

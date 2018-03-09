@@ -6,7 +6,7 @@
     ViewData["Title"] = @"Предъява";
 }
 
-@if(Model.Type == CreateFactModel.FactTypeModelEnum.Charge)
+@if(Model.Type == FactTypeModelEnum.Charge)
 {
     <form asp-action="Post">
         <div class="form-group">

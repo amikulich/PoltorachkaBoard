@@ -25,8 +25,8 @@ namespace Poltorachka.DataAccess.Facts
                 if (fact.FactId == 0)
                 {
                     fact.FactId = conn.Query<int>(@"
-                        INSERT INTO [dbo].[fact] ([app_id], [winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [description], [date])
-                        VALUES (@appId, @winnerId, @loserId, @creatorId, @approverId, @status, @score, @description, @date);
+                        INSERT INTO [dbo].[fact] ([app_id], [winner_id], [loser_id], [creator_id], [approver_id], [status], [score], [description], [date], [fact_type_id])
+                        VALUES (@appId, @winnerId, @loserId, @creatorId, @approverId, @status, @score, @description, @date, @factTypeId);
 
                         SELECT SCOPE_IDENTITY();
                     ",
@@ -41,6 +41,7 @@ namespace Poltorachka.DataAccess.Facts
                                          score = fact.Score,
                                          date = fact.Date,
                                          description = fact.Description,
+                                         factTypeId = fact.Type,
                                      }).Single();
                 }
                 else
@@ -62,7 +63,7 @@ namespace Poltorachka.DataAccess.Facts
             }
         }
 
-        public IFact Get(int factId)
+        public FactBase Get(int factId)
         {
             using (var conn = new SqlConnection(_configuration.GetConnectionString("MainDb")))
             {
@@ -77,6 +78,7 @@ namespace Poltorachka.DataAccess.Facts
                                 [approver_id], 
                                 [status], 
                                 [score], 
+                                [fact_type_id],
                                 [date], 
                                 [description] 
                         FROM [dbo].[Fact]
@@ -92,6 +94,7 @@ namespace Poltorachka.DataAccess.Facts
                         CreatorId = f.creator_id,
                         Status = (FactStatus)f.status,
                         Score = (byte)f.score,
+                        Type = (FactType)f.fact_type_id,
                         Description = f.description
                     }).Single();
 
