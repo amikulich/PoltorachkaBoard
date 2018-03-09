@@ -25,6 +25,7 @@ namespace Poltorachka.DataAccess.FactsSummary
              SELECT loser_id, SUM(score) 
              FROM fact f
              WHERE f.status = 2 /*Approved*/
+                AND f.fact_type_id = 1 /* Charge */
                 AND f.date BETWEEN @startDate AND @endDate
              GROUP BY loser_id 
           )

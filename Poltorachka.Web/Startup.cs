@@ -75,7 +75,7 @@ namespace Poltorachka.Web
             services.AddScoped<IFactSummaryQuery, FactSummaryQuery>();
             services.AddScoped<IFactsQuery, FactsQuery>();
             services.AddScoped<IIndividualsQuery, IndividualsQuery>();
-            services.AddScoped<IUserRemainingBalanceQuery, UserRemainingBalanceQuery>();
+            services.AddScoped<IUserRemainingBalanceQuery, UserRemainingDonatesQuery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

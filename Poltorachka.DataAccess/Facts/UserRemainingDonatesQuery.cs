@@ -7,7 +7,7 @@ using Poltorachka.Domain.Facts;
 
 namespace Poltorachka.DataAccess.Facts
 {
-    public class UserRemainingBalanceQuery : IUserRemainingBalanceQuery
+    public class UserRemainingDonatesQuery : IUserRemainingBalanceQuery
     {
         private readonly IConfiguration _configuration;
 
@@ -16,10 +16,11 @@ namespace Poltorachka.DataAccess.Facts
             FROM fact f 
             WHERE f.loser_id = @indId
                 AND f.[date] BETWEEN @startDate AND @endDate
+                AND f.fact_type_id = 2 /* Donate */
                 AND f.[status] IN (1 /*Pending*/, 2 /*Approved*/)
         ";
 
-        public UserRemainingBalanceQuery(IConfiguration configuration)
+        public UserRemainingDonatesQuery(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -32,7 +33,7 @@ namespace Poltorachka.DataAccess.Facts
 
                 var today = DateTime.UtcNow;
 
-                var potlorachkasLeft = conn.Query<int>(Sql, 
+                var donatesLeft = conn.Query<int>(Sql, 
                     new
                     {
                         indId,
@@ -42,7 +43,7 @@ namespace Poltorachka.DataAccess.Facts
                     })
                     .Single();
 
-                return (byte) (potlorachkasLeft > 0 ? potlorachkasLeft : 0);
+                return (byte) (donatesLeft > 0 ? donatesLeft : 0);
             }
         }
     }

@@ -71,9 +71,9 @@ namespace Poltorachka.Web.Pages.Facts
             }
             catch (AppServiceException exception)
             {
-                if (exception.Message == "Month limit exceeded for this user")
+                if (exception.Message == "Donate limit exceeded for this user")
                 {
-                    GenericErrorMessage = exception.Message;
+                    GenericErrorMessage = "Лимит благодарностей исчерпан";
 
                     return OnGet(Fact.Type);
                 }

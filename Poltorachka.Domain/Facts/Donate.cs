@@ -33,7 +33,7 @@ namespace Poltorachka.Domain.Facts
             Date = DateTime.UtcNow;
             Status = FactStatus.Pending;
 
-            Assert.That(userRemainingBalanceFunc(grantorId) >= score, "Month limit exceeded for this user");
+            Assert.That(userRemainingBalanceFunc(grantorId) >= score, "Donate limit exceeded for this user");
         }
 
         public override void Approve(int witnessId)

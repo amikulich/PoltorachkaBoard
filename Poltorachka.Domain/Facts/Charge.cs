@@ -17,6 +17,8 @@ namespace Poltorachka.Domain.Facts
             Assert.That(creatorId > 0, "Creator id must be provided");
             Assert.That(score > 0, "Score should be a postive number");
 
+            Assert.That(score <= 4, "Score should be less than 4");
+
             Type = FactType.Charge;
 
             AppId = appId;
