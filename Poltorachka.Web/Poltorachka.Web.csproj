@@ -14,7 +14,6 @@
     <ProjectReference Include="..\Poltorachka.Domain\Poltorachka.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\DevClub\" />
     <Folder Include="Pages\Profile\" />
   </ItemGroup>
 </Project>

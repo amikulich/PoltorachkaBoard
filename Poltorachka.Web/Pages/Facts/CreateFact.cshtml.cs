@@ -47,7 +47,7 @@ namespace Poltorachka.Web.Pages.Facts
             }
 
             Type = type;
-            Individuals = new SelectList(_individualsService.Get(), nameof(IndividualViewModel.IndId), nameof(IndividualViewModel.Name));
+            Individuals = new SelectList(_individualsService.Get().OrderBy(i => i.Name), nameof(IndividualViewModel.IndId), nameof(IndividualViewModel.Name));
 
             var currentUser = _individualsQuery.Execute(UserId);
             IndId = currentUser.IndId;
@@ -65,7 +65,8 @@ namespace Poltorachka.Web.Pages.Facts
 
             try
             {
-                _factService.Create(1, Fact.Type, Fact.WinnerId, Fact.LoserId, UserId, Fact.Score, Fact.Description);
+                // ReSharper disable once PossibleInvalidOperationException
+                _factService.Create(1, Fact.Type, Fact.WinnerId, Fact.LoserId, UserId, Fact.Score.Value, Fact.Description);
 
                 return _pagesRedirectHelper.RedirectToDefault(UserId);
             }
@@ -73,7 +74,7 @@ namespace Poltorachka.Web.Pages.Facts
             {
                 if (exception.Message == "Donate limit exceeded for this user")
                 {
-                    GenericErrorMessage = "Лимит благодарностей исчерпан";
+                    GenericErrorMessage = "Лимит благодарностей в этом месяце исчерпан";
 
                     return OnGet(Fact.Type);
                 }
@@ -84,16 +85,17 @@ namespace Poltorachka.Web.Pages.Facts
 
         public class FactModel
         {
-            [Range(1, int.MaxValue, ErrorMessage = "Нужно выбрать")]
+            [Range(1, int.MaxValue, ErrorMessage = "Имя получателя")]
             public int WinnerId { get; set; }
 
-            [Range(1, int.MaxValue, ErrorMessage = "Нужно выбрать")]
+            [Range(1, int.MaxValue, ErrorMessage = "Имя дарящего")]
             public int LoserId { get; set; }
 
-            [Range(1, 4, ErrorMessage = "Нельзя предъявить больше 4 за раз")]
-            public byte Score { get; set; }
+            [Required(ErrorMessage = "Количество")]
+            [Range(1, 4, ErrorMessage = "Количество от одного до четырех")]
+            public byte? Score { get; set; }
 
-            [MaxLength(255, ErrorMessage = "Давай-ка до 255 буков")]
+            [MaxLength(255, ErrorMessage = "Описание до 255 буков")]
             public string Description { get; set; }
 
             public FactTypeModelEnum Type { get; set; }
