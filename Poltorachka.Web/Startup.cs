@@ -96,6 +96,8 @@ namespace Poltorachka.Web
             app.UseStaticFiles();
 
             app.UseMvc();
+
+            app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
         }
     }
 }
